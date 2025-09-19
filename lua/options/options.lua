@@ -1,10 +1,21 @@
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
-
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+
+-- Indentation de base de 2 (lua, js, toml, json, etc)
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+
+-- pour éviter les warnings des providers
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.o.number = true
@@ -57,8 +68,8 @@ vim.o.splitbelow = true
 --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
-vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.o.list = true
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
@@ -73,3 +84,34 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- True Colors
+vim.opt.termguicolors = true
+
+-- Completion popup more friendly
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.pumheight = 12
+
+-- Less visual “jumps” when spliting
+vim.opt.splitkeep = 'screen'
+
+-- Global statusline
+vim.opt.laststatus = 3
+
+-- ripgrep
+if vim.fn.executable 'rg' == 1 then
+  vim.opt.grepprg = 'rg --vimgrep --smart-case'
+  vim.opt.grepformat = '%f:%l:%c:%m'
+end
+
+vim.opt.smoothscroll = true
+
+-- No more swapfile !
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undofile = true -- Mais garder l’historique d’undo entre les sessions
+
+-- folding by treesitter
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldenable = false
