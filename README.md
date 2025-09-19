@@ -1,6 +1,6 @@
 # nebulix.nvim
 
->[!WARNING] This is a fork from [kickstart.nvim], i started from to do my own config
+> [!WARNING] This is a fork from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim), i started from to do my own config
 
 ## Introduction
 
