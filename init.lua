@@ -57,6 +57,7 @@ require('lazy').setup {
   require 'plugins.treesitter',
   require 'plugins.comment',
   require 'plugins.mini-nvim',
+  require 'plugins.bufferline',
   require 'plugins.discord',
   require 'plugins.debug',
   require 'plugins.markdown',
