@@ -69,6 +69,7 @@ require('lazy').setup {
   require 'plugins.indent_line',
   require 'plugins.notes',
   require 'plugins.dash',
+  require 'plugins.biscuit',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
