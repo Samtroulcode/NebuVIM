@@ -1,3 +1,8 @@
+-- Loader Lua bytecode (Neovim >= 0.9) : accélère les require()
+pcall(function()
+  vim.loader.enable()
+end)
+
 --[[
 =====================================
 ============= Leader ================
@@ -53,6 +58,7 @@ require('lazy').setup {
 
   require 'plugins.telescope',
   require 'plugins.lsp',
+  require 'plugins.project',
   require 'plugins.neo-tree',
   require 'plugins.which-key',
   require 'plugins.treesitter',
