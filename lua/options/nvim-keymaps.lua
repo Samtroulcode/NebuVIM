@@ -44,6 +44,14 @@ vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { silent = true })
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true })
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { silent = true })
 
+-- Buffers
+vim.keymap.set('n', '<leader>bd', ':bd!<cr>', { desc = '[B]uffer [D]elete' })
+vim.keymap.set('n', '<leader>bo', ':%bd|e#|bd#<cr>', { desc = '[B]uffer delete [O]thers' })
+vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bp', ':bprevious<cr>', { desc = '[B]uffer [P]revious' })
+vim.keymap.set('n', '<M-h>', ':bprevious<cr>', { desc = '[P]revious buffer' })
+vim.keymap.set('n', '<M-l>', ':bnext<cr>', { desc = '[N]ext buffer' })
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
