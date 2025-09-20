@@ -1,5 +1,6 @@
 return {
   'nvim-lualine/lualine.nvim',
+  event = 'VimEnter',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = function()
     -- Helpers/Composants
@@ -96,41 +97,19 @@ return {
 
     return {
       options = {
-        icons_enabled = true,
         theme = 'auto',
-        component_separators = {},
-        section_separators = {},
+        component_separators = '',
+        section_separators = '',
         disabled_filetypes = {
           statusline = {},
           winbar = {},
         },
-        ignore_focus = {},
-        always_divide_middle = true,
-        always_show_tabline = true,
         globalstatus = true,
-        refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
-          refresh_time = 16, -- ~60fps
-          events = {
-            'WinEnter',
-            'BufEnter',
-            'BufWritePost',
-            'SessionLoadPost',
-            'FileChangedShellPost',
-            'VimResized',
-            'Filetype',
-            'CursorMoved',
-            'CursorMovedI',
-            'ModeChanged',
-          },
-        },
       },
       sections = {
         lualine_a = { 'mode' },
-        lualine_b = { cwd, git_branch, git_diff },
-        lualine_c = { diagnostics, align, lsp_names, ts_ok, dap_status },
+        lualine_b = { cwd, git_branch },
+        lualine_c = { git_diff, diagnostics, align, lsp_names, ts_ok, dap_status },
         lualine_x = { searchcount, macro_rec },
         lualine_y = { indent, { 'filetype', icon_only = false }, enc_ff, 'progress' },
         lualine_z = { 'location' },
@@ -143,9 +122,10 @@ return {
         lualine_y = {},
         lualine_z = { 'location' },
       },
-      tabline = {},
-      winbar = {},
-      inactive_winbar = {},
+      tabline = {
+        lualine_a = { { 'buffers', symbols = { modified = ' ●', alternate_file = '' }, mode = 2 } },
+        lualine_z = { { 'tabs', mode = 2 } },
+      },
       extensions = { 'neo-tree', 'quickfix', 'fugitive', 'trouble', 'toggleterm' },
     }
   end,
