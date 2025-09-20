@@ -56,27 +56,10 @@ require('lazy').setup {
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
-  require 'plugins.telescope',
-  require 'plugins.lsp',
-  require 'plugins.project',
-  require 'plugins.neo-tree',
-  require 'plugins.which-key',
-  require 'plugins.treesitter',
-  require 'plugins.comment',
-  require 'plugins.mini-nvim',
-  require 'plugins.bufferline',
-  require 'plugins.discord',
-  require 'plugins.debug',
-  require 'plugins.markdown',
-  require 'plugins.lint',
-  require 'plugins.gitsigns',
-  require 'plugins.coloscheme',
-  require 'plugins.autopairs',
-  require 'plugins.indent_line',
-  require 'plugins.notes',
-  require 'plugins.dash',
-  require 'plugins.biscuit',
-  require 'plugins.lualine',
+  spec = {
+    -- import your plugins
+    { import = 'plugins' },
+  },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
