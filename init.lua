@@ -76,6 +76,7 @@ require('lazy').setup {
   require 'plugins.notes',
   require 'plugins.dash',
   require 'plugins.biscuit',
+  require 'plugins.lualine',
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
