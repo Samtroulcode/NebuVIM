@@ -97,6 +97,7 @@ return {
 
     return {
       options = {
+        icons_enabled = true,
         theme = 'auto',
         component_separators = '',
         section_separators = '',
@@ -107,7 +108,7 @@ return {
         globalstatus = true,
       },
       sections = {
-        lualine_a = { 'mode' },
+        lualine_a = { { 'mode', icon = ' ' } },
         lualine_b = { cwd, git_branch },
         lualine_c = { git_diff, diagnostics, align, lsp_names, ts_ok, dap_status },
         lualine_x = { searchcount, macro_rec },
