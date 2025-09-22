@@ -85,7 +85,6 @@ NebuVim is built upon the excellent kickstart.nvim foundation but includes sever
 - **[Blink.cmp](https://github.com/Saghen/blink.cmp)** for fast, modern autocompletion (nvim-cmp who?)
 - **nvim-lint** for asynchronous linting
 - **GitHub Copilot** integration (because sometimes we all need an AI pair programmer)
-- **DAP debugging** support
 
 ### Productivity
 
@@ -225,7 +224,7 @@ nvim
 <summary><b>Development & LSP</b></summary>
 
 - **neovim/nvim-lspconfig** - LSP client configurations
-- **mason-org/mason.nvim** - LSP/DAP/linter installer
+- **mason-org/mason.nvim** - LSP/linter installer
 - **saghen/blink.cmp** - Fast, modern autocompletion
 - **nvim-treesitter/nvim-treesitter** - Advanced parsing and highlighting
 - **mfussenegger/nvim-lint** - Asynchronous linting
