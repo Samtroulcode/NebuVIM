@@ -1,6 +1,6 @@
 # NebuVim
 
-> **A modern, complete, and personalized Neovim configuration**
+> **A modern, complete, not bloated and personalized Neovim configuration**
 
 <div align="center">
 
@@ -12,6 +12,18 @@
 
 ![nebuvim](./assets/nebuvim.png)
 </div>
+
+> [!NOTE]
+> **Minimal, stable, and functional - not a bloated distribution**
+>
+> NebuVim is intentionally lightweight compared to feature-heavy distributions like LazyVim or AstroNvim (no 100+ plugins here). It requires basic Vim/Neovim knowledge to be effective.
+>
+> **Before diving in:**
+> - Run `vimtutor` to learn Vim basics
+> - Use `:h <topic>` for built-in help, or `<leader>sh` (our FZF-lua shortcut) to search help topics
+> - This config assumes you understand Vim modes, navigation, and core concepts
+>
+> If you want a more guided experience, consider LazyVim or AstroNvim. If you want lean performance with essential tools, you're in the right place.
 
 ## What Makes NebuVim Different
 
