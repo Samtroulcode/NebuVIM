@@ -16,7 +16,7 @@ return {
   {
     'github/copilot.vim',
     cmd = 'Copilot',
-    event = 'BufWinEnter',
+    event = 'InsertEnter',
     init = function()
       vim.g.copilot_no_maps = true
     end,
@@ -35,22 +35,20 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- Allows extra capabilities provided by blink.cmp
-      'saghen/blink.cmp',
+      { 'j-hui/fidget.nvim', event = 'LspAttach', opts = {} },
 
       -- pour les schémas JSON/YAML
-      'b0o/schemastore.nvim',
+      { 'b0o/schemastore.nvim', ft = { 'json', 'jsonc', 'yaml', 'yml', 'yaml.ansible' } },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -489,9 +487,6 @@ return {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black', 'ruff_fix' },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
         -- Web: Prettier via prettierd ; eslint_d en fix-all si configuré
         javascript = { 'prettierd', 'eslint_d' },
         typescript = { 'prettierd', 'eslint_d' },
@@ -511,11 +506,13 @@ return {
 
   { -- Autocompletion
     'saghen/blink.cmp',
-    event = 'VimEnter',
+    event = 'InsertEnter',
     version = '1.*',
     dependencies = {
       {
         'fang2hou/blink-copilot',
+        event = 'InsertEnter',
+        dependencies = { 'saghen/blink.cmp' },
         -- default config for blink-copilot
         opts = {
           {
@@ -535,6 +532,7 @@ return {
       -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
+        event = 'InsertEnter',
         version = '2.*',
         build = (function()
           -- Build Step is needed for regex support in snippets.

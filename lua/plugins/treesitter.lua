@@ -1,10 +1,21 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
+  event = { 'BufReadPost', 'BufNewFile' },
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+    ensure_installed = {
+    -- base
+    'lua', 'luadoc', 'vim', 'vimdoc', 'query',
+    'bash', 'c', 'diff', 'html', 'markdown', 'markdown_inline',
+    -- web/TS
+    'javascript', 'typescript', 'tsx', 'json', 'jsonc', 'css', 'scss', 'yaml',
+    -- svelte si tu en fais
+    'svelte',
+    -- Rust & outillage
+    'rust', 'toml', 'regex', 'gitignore',
+    },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {

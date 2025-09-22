@@ -1,5 +1,6 @@
 return {
   'coffebar/neovim-project',
+  event = 'VeryLazy',
   opts = {
     projects = { -- define project roots
       '~/Documents/dev/*/*',
@@ -17,14 +18,6 @@ return {
   end,
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
-    -- optional picker
-    -- { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
-    -- optional picker
-    { 'ibhagwan/fzf-lua' },
-    -- optional picker
-    -- { 'folke/snacks.nvim' },
     { 'Shatur/neovim-session-manager' },
   },
-  lazy = false,
-  priority = 100,
 }

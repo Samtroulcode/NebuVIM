@@ -2,9 +2,10 @@ return {
   'zk-org/zk-nvim',
   main = 'zk',
   ft = 'markdown',
-  dependencies = {
-    'ibhagwan/fzf-lua',
-    'folke/which-key.nvim',
+  cmd = {
+    'ZkNew',
+    'ZkNotes',
+    'ZkTags',
   },
   opts = {
     picker = 'fzf_lua',

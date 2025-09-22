@@ -25,6 +25,7 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
+    event = 'BufReadPre',
     opts = {
       -- See `:help gitsigns` to understand what the configuration keys do
       signs = {
