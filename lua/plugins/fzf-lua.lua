@@ -1,3 +1,101 @@
+-- https://github.com/ibhagwan/fzf-lua
+return {
+  -- Fuzzy Finder (files, LSP, etc.) via fzf-lua
+  'ibhagwan/fzf-lua',
+  event = 'VimEnter',
+  dependencies = {
+    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+  },
+  config = function()
+    local fzf = require 'fzf-lua'
+
+    fzf.setup {
+      winopts = {
+        height = 0.85,
+        width = 0.85,
+        preview = { default = 'bat' }, -- si bat est installé, sinon commentaire
+      },
+      files = {
+        -- utilise fd s'il est dispo pour de meilleures perfs
+        fd_opts = [[--color=never --hidden --follow --exclude .git]],
+        -- fallback sur ripgrep sinon
+      },
+      grep = {
+        rg_opts = '--hidden --no-heading --with-filename --line-number --column --smart-case',
+      },
+    }
+
+    fzf.register_ui_select()
+
+    -- === Mappings ====
+    local map = vim.keymap.set
+    local desc = function(d)
+      return { desc = d }
+    end
+
+    map('n', '<leader>sh', fzf.help_tags, desc '[S]earch [H]elp')
+    map('n', '<leader>sk', fzf.keymaps, desc '[S]earch [K]eymaps')
+    map('n', '<leader>sf', fzf.files, desc '[S]earch [F]iles')
+    map('n', '<leader>ss', fzf.builtin, desc '[S]earch [S]elect (Pickers)')
+    -- "current word" -> grep la cword
+    map('n', '<leader>sw', function()
+      fzf.grep { search = vim.fn.expand '<cword>' }
+    end, desc '[S]earch current [W]ord')
+
+    map('n', '<leader>sg', fzf.live_grep, desc '[S]earch by [G]rep')
+    -- Diagnostics (workspace) ~ Telescope diagnostics
+    map('n', '<leader>sd', fzf.diagnostics_workspace, desc '[S]earch [D]iagnostics')
+    map('n', '<leader>sr', fzf.resume, desc '[S]earch [R]esume')
+    map('n', '<leader>s.', fzf.oldfiles, desc '[S]earch Recent Files')
+    map('n', '<leader><leader>', fzf.buffers, desc '[ ] Find existing buffers')
+
+    -- Raccourci project finder (plugin neovim-project)
+    map('n', '<leader>sp', ':NeovimProjectDiscover<CR>', desc '[S]earch [P]rojects')
+
+    -- "projects history" ~ proche de buffers/oldfiles; on choisit oldfiles cwd-only
+    map('n', '<leader>si', function()
+      fzf.oldfiles { cwd_only = true, stat_file = true }
+    end, desc '[S]earch projects h[I]story')
+
+    -- Equivalent de "current_buffer_fuzzy_find" (Telescope) -> blines
+    map('n', '<leader>/', function()
+      fzf.blines {
+        -- prévisualisation sobre (tu peux la couper complètement si tu veux)
+        winopts = { preview = { hidden = 'hidden' } },
+      }
+    end, desc '[/] Fuzzy dans le buffer courant')
+
+    -- "Live Grep in Open Files" : on grep uniquement dans les buffers listés/nommés
+    map('n', '<leader>s/', function()
+      local bufs = vim.api.nvim_list_bufs()
+      local files = {}
+      for _, b in ipairs(bufs) do
+        if vim.api.nvim_buf_is_loaded(b) then
+          local name = vim.api.nvim_buf_get_name(b)
+          if name ~= '' and vim.fn.filereadable(name) == 1 then
+            table.insert(files, name)
+          end
+        end
+      end
+      if #files == 0 then
+        vim.notify('Aucun fichier ouvert lisible pour la recherche', vim.log.levels.WARN)
+        return
+      end
+      fzf.grep {
+        search = '', -- prompt vide
+        prompt = 'Grep in Open Files> ',
+        files = files, -- limite aux fichiers ouverts
+        no_esc = true,
+      }
+    end, desc '[S]earch [/] in Open Files')
+
+    -- Shortcut pour config Neovim
+    map('n', '<leader>sn', function()
+      fzf.files { cwd = vim.fn.stdpath 'config' }
+    end, desc '[S]earch [N]eovim files')
+  end,
+}
+
 -- return { -- Fuzzy Finder (files, lsp, etc)
 --   'nvim-telescope/telescope.nvim',
 --   event = 'VimEnter',
@@ -103,104 +201,3 @@
 --     end, { desc = '[S]earch [N]eovim files' })
 --   end,
 -- }
-
--- Remplacement Telescope -> fzf-lua
-return {
-  -- Fuzzy Finder (files, LSP, etc.) via fzf-lua
-  'ibhagwan/fzf-lua',
-  event = 'VimEnter',
-  dependencies = {
-    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-  },
-  config = function()
-    local fzf = require 'fzf-lua'
-
-    -- Setup (minimal, tu peux ajuster plus tard)
-    fzf.setup {
-      -- Exemple d’options utiles; ajoute/retire selon tes goûts
-      winopts = {
-        height = 0.85,
-        width = 0.85,
-        preview = { default = 'bat' }, -- si bat est installé, sinon commentaire
-      },
-      files = {
-        -- utilise fd s'il est dispo pour de meilleures perfs
-        fd_opts = [[--color=never --hidden --follow --exclude .git]],
-        -- fallback sur ripgrep sinon
-      },
-      grep = {
-        rg_opts = '--hidden --no-heading --with-filename --line-number --column --smart-case',
-      },
-    }
-
-    -- Remplace vim.ui.select (équivalent telescope-ui-select)
-    fzf.register_ui_select()
-
-    -- === Mappings équivalents à tes :Telescope ... ==========================
-    local map = vim.keymap.set
-    local desc = function(d)
-      return { desc = d }
-    end
-
-    map('n', '<leader>sh', fzf.help_tags, desc '[S]earch [H]elp')
-    map('n', '<leader>sk', fzf.keymaps, desc '[S]earch [K]eymaps')
-    map('n', '<leader>sf', fzf.files, desc '[S]earch [F]iles')
-    map('n', '<leader>ss', fzf.builtin, desc '[S]earch [S]elect (Pickers)')
-    -- "current word" -> grep la cword
-    map('n', '<leader>sw', function()
-      fzf.grep { search = vim.fn.expand '<cword>' }
-    end, desc '[S]earch current [W]ord')
-
-    map('n', '<leader>sg', fzf.live_grep, desc '[S]earch by [G]rep')
-    -- Diagnostics (workspace) ~ Telescope diagnostics
-    map('n', '<leader>sd', fzf.diagnostics_workspace, desc '[S]earch [D]iagnostics')
-    map('n', '<leader>sr', fzf.resume, desc '[S]earch [R]esume')
-    map('n', '<leader>s.', fzf.oldfiles, desc '[S]earch Recent Files')
-    map('n', '<leader><leader>', fzf.buffers, desc '[ ] Find existing buffers')
-
-    -- Ton raccourci project finder (plugin neovim-project)
-    map('n', '<leader>sp', ':NeovimProjectDiscover<CR>', desc '[S]earch [P]rojects')
-
-    -- "projects history" ~ proche de buffers/oldfiles; on choisit oldfiles cwd-only
-    map('n', '<leader>si', function()
-      fzf.oldfiles { cwd_only = true, stat_file = true }
-    end, desc '[S]earch projects h[I]story')
-
-    -- Equivalent de "current_buffer_fuzzy_find" (Telescope) -> blines
-    map('n', '<leader>/', function()
-      fzf.blines {
-        -- prévisualisation sobre (tu peux la couper complètement si tu veux)
-        winopts = { preview = { hidden = 'hidden' } },
-      }
-    end, desc '[/] Fuzzy dans le buffer courant')
-
-    -- "Live Grep in Open Files" : on grep uniquement dans les buffers listés/nommés
-    map('n', '<leader>s/', function()
-      local bufs = vim.api.nvim_list_bufs()
-      local files = {}
-      for _, b in ipairs(bufs) do
-        if vim.api.nvim_buf_is_loaded(b) then
-          local name = vim.api.nvim_buf_get_name(b)
-          if name ~= '' and vim.fn.filereadable(name) == 1 then
-            table.insert(files, name)
-          end
-        end
-      end
-      if #files == 0 then
-        vim.notify('Aucun fichier ouvert lisible pour la recherche', vim.log.levels.WARN)
-        return
-      end
-      fzf.grep {
-        search = '', -- prompt vide, tape directement ta requête
-        prompt = 'Grep in Open Files> ',
-        files = files, -- limite aux fichiers ouverts
-        no_esc = true,
-      }
-    end, desc '[S]earch [/] in Open Files')
-
-    -- Shortcut pour ta config Neovim
-    map('n', '<leader>sn', function()
-      fzf.files { cwd = vim.fn.stdpath 'config' }
-    end, desc '[S]earch [N]eovim files')
-  end,
-}
