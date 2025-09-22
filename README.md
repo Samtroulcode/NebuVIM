@@ -10,7 +10,7 @@
 
 *Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) and extended for an optimal development experience*
 
-    [!nebuvim](./assets/nebuvim.png)
+[!nebuvim](./assets/nebuvim.png)
 </div>
 
 ## What Makes NebuVim Different
