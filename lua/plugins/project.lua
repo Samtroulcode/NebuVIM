@@ -8,7 +8,7 @@ return {
     },
     dashboard_mode = true,
     picker = {
-      type = 'telescope', -- one of "telescope", "fzf-lua", or "snacks"
+      type = 'fzf-lua', -- one of "telescope", "fzf-lua", or "snacks"
     },
   },
   init = function()
@@ -18,9 +18,9 @@ return {
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
     -- optional picker
-    { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
+    -- { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
     -- optional picker
-    -- { 'ibhagwan/fzf-lua' },
+    { 'ibhagwan/fzf-lua' },
     -- optional picker
     -- { 'folke/snacks.nvim' },
     { 'Shatur/neovim-session-manager' },

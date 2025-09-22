@@ -4,13 +4,13 @@ return {
   event = 'VimEnter',
   dependencies = {
     'nvim-tree/nvim-web-devicons',
-    'nvim-telescope/telescope.nvim',
+    'ibhagwan/fzf-lua',
   },
   config = function()
     local alpha = require 'alpha'
     local dash = require 'alpha.themes.dashboard'
-    local tb = require 'telescope.builtin'
     local zk = require 'config.notes'
+    local fzf = require 'fzf-lua'
 
     -- Header custom
     dash.section.header.val = {
@@ -29,8 +29,8 @@ return {
     -- Boutons organisés par sections avec titres
     dash.section.buttons.val = {
       { type = 'text', val = '  Explorer', opts = { hl = 'Title', position = 'center' } },
-      dash.button('f', '  Files', ':Telescope find_files<CR>'),
-      dash.button('g', '  Grep', ':Telescope live_grep<CR>'),
+      dash.button('f', '  Files', fzf.files),
+      dash.button('g', '  Grep', fzf.grep),
       dash.button('p', '  Projects', ':NeovimProjectDiscover history<CR>'),
       dash.button('r', '󰑓  Load last session', ':NeovimProjectLoadRecent<CR>'),
       dash.button('j', '󰃰  Journal du jour', zk.new_daily),
@@ -40,13 +40,16 @@ return {
       dash.button('l', '󰒲  Lazy', ':Lazy<CR>'),
       dash.button('m', '󱁤  Mason', ':Mason<CR>'),
       dash.button('h', '  Health', ':checkhealth<CR>'),
-      dash.button('d', '  Dotfiles', [[<cmd>lua require('telescope.builtin').find_files({ cwd = vim.fn.expand('~/dotfiles') })<CR>]]),
+      dash.button('d', '  Dotfiles', function()
+        fzf.files {
+          cwd = vim.fn.expand '~/dotfiles',
+        }
+      end),
       dash.button('c', '  Config', function()
-        require('telescope.builtin').find_files {
+        fzf.files {
           cwd = vim.fn.stdpath 'config',
-          no_ignore = true, -- ← ignore pas les fichiers cachés
-          hidden = true, -- ← montre aussi .fichiers
-          use_git_root = false, -- ← empêche Telescope de remonter au repo git
+          -- merge avec tes fd_opts globaux si définis dans fzf.setup()
+          fd_opts = [[--color=never --hidden --follow --no-ignore --exclude .git]],
         }
       end),
       dash.button('q', '󰗼  Quit', ':qa<CR>'),

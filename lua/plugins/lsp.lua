@@ -28,6 +28,9 @@ return {
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
+
+      -- pour les schémas JSON/YAML
+      'b0o/schemastore.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -55,6 +58,8 @@ return {
       -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
       -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
+      local fzf = require 'fzf-lua'
+
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -81,16 +86,16 @@ return {
           map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          map('grr', fzf.lsp_references, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map('gri', fzf.lsp_implementations, '[G]oto [I]mplementation')
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('grd', fzf.lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -98,16 +103,23 @@ return {
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('gO', fzf.lsp_document_symbols, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          map('gW', function()
+            if fzf.lsp_live_workspace_symbols then
+              fzf.lsp_live_workspace_symbols()
+            else
+              -- fallback for older fzf-lua
+              fzf.lsp_workspace_symbols()
+            end
+          end, 'Open Workspace Symbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('grt', fzf.lsp_typedefs, '[G]oto [T]ype Definition')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -219,7 +231,51 @@ return {
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        --
+
+        basedpyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = 'standard', -- "off" | "basic"/"standard" | "strict"
+                autoImportCompletions = true,
+                useLibraryCodeForTypes = true,
+              },
+              -- Pointe vers le Python du venv local s’il existe (.venv)
+              pythonPath = (function()
+                local cwd = vim.fn.getcwd()
+                local venv_python = cwd .. '/.venv/bin/python'
+                if vim.fn.executable(venv_python) == 1 then
+                  return venv_python
+                end
+                return nil
+              end)(),
+            },
+          },
+        },
+
+        yamlls = {
+          settings = {
+            yaml = {
+              keyOrdering = false,
+              format = { enable = false }, -- tu laisses Prettier
+              schemas = require('schemastore').yaml.schemas(),
+              validate = true,
+            },
+          },
+        },
+
+        ruff = {
+          -- Ruff LSP intégré: diag + quickfix (code actions)
+          on_attach = function(client, _)
+            -- si tu utilises Conform (black/isort/ruff_fix), on coupe le formatting LSP
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+          init_options = {
+            settings = {
+              args = {}, -- ex: { "--select", "E,F,I" } si tu veux forcer des flags (sinon pyproject)
+            },
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -232,6 +288,80 @@ return {
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+            },
+          },
+        },
+        -- TypeScript/JavaScript (vtsls)
+        vtsls = {
+          -- On coupe le formatting LSP: on laissera Conform/Prettier s'en occuper
+          settings = {
+            typescript = {
+              tsserver = { maxTsServerMemory = 4096 },
+              preferences = { includeCompletionsForModuleExports = true },
+              format = { enable = false },
+            },
+            javascript = { format = { enable = false } },
+          },
+        },
+
+        -- Svelte
+        svelte = {
+          -- Le serveur s’appuie sur TS du projet. Le format vient de Prettier.
+          on_attach = function(client, bufnr)
+            -- svelte-ls propose aussi du format, on le coupe
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        },
+
+        -- HTML/CSS
+        html = {
+          -- Laisser le format à Prettier
+          init_options = { provideFormatter = false },
+        },
+        cssls = {
+          settings = { css = { validate = true }, scss = { validate = true }, less = { validate = true } },
+        },
+
+        -- Tailwind
+        tailwindcss = {
+          -- Marche out-of-the-box avec Svelte/TS.
+          -- settings = { tailwindCSS = { experimental = { classRegex = {} } } },
+        },
+
+        -- ESLint (code actions + diag + fixAll)
+        eslint = {
+          settings = {
+            -- Active le codeAction.fixAll
+            codeAction = { disableRuleComment = { enable = true }, showDocumentation = { enable = true } },
+            workingDirectory = { mode = 'auto' },
+          },
+        },
+
+        -- Emmet
+        emmet_language_server = {
+          filetypes = {
+            'html',
+            'css',
+            'scss',
+            'less',
+            'sass',
+            'javascriptreact',
+            'typescriptreact',
+            'javascript',
+            'typescript',
+            'svelte',
+          },
+          init_options = {
+            showSuggestionsAsSnippets = true,
+          },
+        },
+
+        -- JSON (+ schemastore)
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
             },
           },
         },
@@ -252,7 +382,30 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        -- LSP
+        'basedpyright',
+        'ruff',
         'stylua', -- Used to format Lua code
+
+        -- web LSPs
+        'vtsls',
+        'svelte-language-server',
+        'eslint-lsp',
+        'html-lsp',
+        'css-lsp',
+        'tailwindcss-language-server',
+        'emmet-language-server',
+        'json-lsp',
+        'yaml-language-server',
+
+        -- formatters/linters
+        'prettierd',
+        'eslint_d',
+        'black',
+        'isort',
+
+        -- Optionnel debug/tests
+        'debugpy',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -303,13 +456,35 @@ return {
           }
         end
       end,
+      -- formatters customs
+      formatters = {
+        -- custom ruff pour python
+        ruff_fix = {
+          command = 'ruff',
+          args = { 'check', '--fix', '--exit-zero', '--stdin-filename', '$FILENAME', '-' },
+          stdin = true,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black', 'ruff_fix' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        -- Web: Prettier via prettierd ; eslint_d en fix-all si configuré
+        javascript = { 'prettierd', 'eslint_d' },
+        typescript = { 'prettierd', 'eslint_d' },
+        javascriptreact = { 'prettierd', 'eslint_d' },
+        typescriptreact = { 'prettierd', 'eslint_d' },
+        svelte = { 'prettierd', 'eslint_d' },
+        vue = { 'prettierd', 'eslint_d' }, -- au cas où
+        html = { 'prettierd' },
+        css = { 'prettierd' },
+        scss = { 'prettierd' },
+        json = { 'prettierd' },
+        yaml = { 'prettierd' },
+        rust = { 'rustfmt' },
       },
     },
   },
@@ -391,7 +566,13 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = {
+          'lsp',
+          'path',
+          'snippets',
+          'lazydev',
+          'buffer',
+        },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
@@ -406,7 +587,7 @@ return {
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
       -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
