@@ -38,22 +38,51 @@ vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-w>j]])
 vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-w>k]])
 vim.keymap.set('t', '<C-l>', [[<C-\><C-n><C-w>l]])
 
--- Redimensionner plus vite
+-- Faster window resizing
 vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', { silent = true })
 vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { silent = true })
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true })
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { silent = true })
 
 -- Buffers
+--
+-- Buffers moving logic same as tabs (gt, gT, ngt when n is a number for tabs: gb, gB, ngb for buffers)
 vim.keymap.set('n', '<leader>bd', ':bd!<cr>', { desc = '[B]uffer [D]elete' })
 vim.keymap.set('n', '<leader>bo', ':%bd|e#|bd#<cr>', { desc = '[B]uffer delete [O]thers' })
 vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bp', ':bprevious<cr>', { desc = '[B]uffer [P]revious' })
-vim.keymap.set('n', '<M-h>', ':bprevious<cr>', { desc = '[P]revious buffer' })
-vim.keymap.set('n', '<M-l>', ':bnext<cr>', { desc = '[N]ext buffer' })
+vim.keymap.set('n', 'gB', ':bprevious<cr>', { desc = '[G]oto previous [B]uffer' })
 
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+-- ngb - go to buffer number n, where n is a count given before the command.
+-- I doing this because I use gt/gT/ngt to navigate tabs and want similar for buffers.
+-- but the number of buffers shown in luatab is not the same as buffer number (bufnr) in vim
+local function goto_buffer_index(n)
+  local info = vim.fn.getbufinfo { buflisted = 1 } -- only listed buffers
+  table.sort(info, function(a, b)
+    return a.bufnr < b.bufnr -- sort by buffer number
+  end)
+  if n >= 1 and n <= #info then
+    vim.cmd('buffer ' .. info[n].bufnr) -- go to buffer n
+  else
+    vim.notify(('No index %d buffer'):format(n, #info), vim.log.levels.WARN)
+  end
+end
+
+vim.keymap.set('n', 'gb', function()
+  local n = vim.v.count
+  if n > 0 then
+    goto_buffer_index(n)
+  else
+    vim.cmd 'bnext'
+  end
+end, { desc = '[G]oto next [b]uffer' })
+
+-- Toggle spell checking
+vim.keymap.set('n', '<leader>ts', function()
+  vim.opt.spell = not vim.opt.spell:get()
+  if vim.opt.spell:get() then
+    vim.notify('Spellcheck ON (' .. table.concat(vim.opt.spelllang:get(), ',') .. ')', vim.log.levels.INFO)
+  else
+    vim.notify('Spellcheck OFF', vim.log.levels.INFO)
+  end
+end, { desc = '[T]oggle [S]pell checker' })
