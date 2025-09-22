@@ -4,7 +4,7 @@ return {
   'ibhagwan/fzf-lua',
   cmd = 'FzfLua',
   dependencies = {
-    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    { 'echasnovski/mini.nvim', enabled = vim.g.have_nerd_font },
   },
   config = function()
     local fzf = require 'fzf-lua'
