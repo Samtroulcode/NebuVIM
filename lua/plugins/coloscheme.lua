@@ -5,7 +5,7 @@ return {
   priority = 1000,
   opts = {
     flavour = 'mocha', -- latte, frappe, macchiato, mocha
-    transparent_background = true,
+    transparent_background = false,
   },
   config = function(_, opts)
     local catppuccin = require 'catppuccin'
