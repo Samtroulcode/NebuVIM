@@ -14,7 +14,7 @@
 </div>
 
 > [!WARNING]
-> NebuVim is intentionally lightweight compared to feature-heavy distributions like LazyVim or AstroNvim (no 100+ plugins here). It requires basic Vim/Neovim knowledge to be effective.
+> NebuVim is intentionally lightweight in user friendly plugins compared to feature-heavy distributions (no 100+ plugins here). It requires basic Vim/Neovim knowledge to be effective.
 >
 > **Before diving in:**
 > - Run `vimtutor` to learn Vim basics
