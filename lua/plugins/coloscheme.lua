@@ -37,20 +37,5 @@ return {
     local catppuccin = require 'catppuccin'
     catppuccin.setup(opts)
     vim.cmd.colorscheme 'catppuccin'
-    -- fonction de toggle
-    local function toggle_transparency()
-      opts.transparent_background = not opts.transparent_background
-      catppuccin.setup(opts)
-      vim.cmd.colorscheme 'catppuccin'
-      if opts.transparent_background then
-        vim.notify('Transparence activée', vim.log.levels.INFO)
-      else
-        vim.notify('Transparence désactivée', vim.log.levels.INFO)
-      end
-    end
-
-    -- mapping transparence
-    vim.api.nvim_create_user_command('CatppuccinToggleTransparency', toggle_transparency, {})
-    vim.keymap.set('n', '<leader>tt', toggle_transparency, { desc = 'Toggle transparence' })
   end,
 }
