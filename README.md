@@ -135,6 +135,7 @@ git clone https://github.com/your-username/nebu-nvim.git ~/.config/nvim
 nvim
 ```
 
+![lazy](./assets/lazy.png)
 *Lazy.nvim doing its magic on first launch*
 
 ## Key Bindings
