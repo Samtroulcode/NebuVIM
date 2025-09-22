@@ -13,9 +13,7 @@
 ![nebuvim](./assets/nebuvim.png)
 </div>
 
-> [!NOTE]
-> **Minimal, stable, and functional - not a bloated distribution**
->
+> [!WARNING]
 > NebuVim is intentionally lightweight compared to feature-heavy distributions like LazyVim or AstroNvim (no 100+ plugins here). It requires basic Vim/Neovim knowledge to be effective.
 >
 > **Before diving in:**
@@ -26,6 +24,8 @@
 > If you want a more guided experience, consider LazyVim or AstroNvim. If you want lean performance with essential tools, you're in the right place.
 
 ## What Makes NebuVim Different
+
+> **Minimal, stable, and functional - not a bloated distribution**
 
 NebuVim is built upon the excellent kickstart.nvim foundation but includes several key improvements and opinionated choices for modern development (because vanilla kickstart is great, but it is design to be improved):
 
