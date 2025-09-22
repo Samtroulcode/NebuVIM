@@ -1,8 +1,7 @@
 tags
 test.sh
 .luarc.json
-nvim
-
+lua/plugins/*.bak
 spell/
 lazy-lock.json
 AGENTS.md
