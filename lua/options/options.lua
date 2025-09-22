@@ -115,3 +115,7 @@ vim.opt.undofile = true -- Mais garder l’historique d’undo entre les session
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldenable = false
+
+-- Spellchecking
+vim.opt.spell = true
+vim.opt.spelllang = { 'en', 'fr' }
