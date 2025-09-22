@@ -6,16 +6,11 @@ return {
     local alpha = require 'alpha'
     local dash = require 'alpha.themes.dashboard'
 
-    -- ⚠️ évite les require top-level qui chargent des plugins :
-    -- local zk  = require 'config.notes'       -- <- si ça pull des plugins, évite
-    -- local fzf = require 'fzf-lua'            -- <- force le chargement
-
     -- Si 'config.notes' est léger, ok. Sinon, wrappe aussi en function.
     local zk_ok, zk = pcall(require, 'config.notes')
 
     -- Header
     dash.section.header.val = {
-      '                                 nebulix⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
       '                                              ',
       '       ████ ██████           █████      ██',
       '      ███████████             █████ ',
@@ -24,7 +19,6 @@ return {
       '    █████████ ██████████ █████████ █████ █████ ████ █████',
       '  ███████████ ███    ███ █████████ █████ █████ ████ █████',
       ' ██████  █████████████████████ ████ █████ █████ ████ ██████',
-      ' ',
     }
 
     -- Helpers fzf-lua lazy
@@ -43,7 +37,7 @@ return {
     dash.section.buttons.val = {
       { type = 'text', val = '  Explorer', opts = { hl = 'Title', position = 'center' } },
 
-      -- ⚠️ fzf-lua n’est require QU’AU CLIC
+      -- fzf-lua n’est require QU’AU CLIC
       dash.button('f', '  Files', fzf_files()),
       dash.button('g', '  Grep', fzf_grep()),
 
@@ -79,9 +73,9 @@ return {
       return x ~= nil
     end, dash.section.buttons.val)
 
-    -- MRU (inchangé)
+    -- MRU
     local function mru_section(opts)
-      opts = vim.tbl_extend('force', { max = 8, cwd = nil, title = 'Recent files' }, opts or {})
+      opts = vim.tbl_extend('force', { max = 5, cwd = nil, title = 'Recent files' }, opts or {})
       local function file_btn(idx, path)
         local short = vim.fn.pathshorten(vim.fn.fnamemodify(path, ':.'))
         local cmd = string.format('<cmd>e %s<CR>', vim.fn.fnameescape(path))
