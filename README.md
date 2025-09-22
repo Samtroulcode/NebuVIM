@@ -1,4 +1,4 @@
-# 🚀 NebuVim
+# NebuVim
 
 > **A modern, complete, and personalized Neovim configuration**
 
@@ -12,35 +12,35 @@
 
 </div>
 
-## 🎯 What Makes NebuVim Different
+## What Makes NebuVim Different
 
 NebuVim is built upon the excellent kickstart.nvim foundation but includes several key improvements and opinionated choices for modern development:
 
-### 🔄 Key Changes from Kickstart
+### Key Changes from Kickstart
 
-- **🚀 FZF-lua over Telescope**: Switched to fzf-lua for significantly faster fuzzy finding and better performance
-- **⚡ Blink.cmp over nvim-cmp**: Modern autocompletion engine that's faster and more responsive
-- **🎨 Catppuccin Theme**: Beautiful, consistent theming with transparency support
-- **📊 Enhanced Lualine**: Custom statusline with advanced indicators (LSP status, Git, diagnostics, macro recording)
-- **🌐 Modern Web Stack**: Optimized for JavaScript/TypeScript, Svelte, and Tailwind CSS development
-- **🦀 Rust Integration**: First-class Rust support with rustaceanvim
-- **🔌 Additional Productivity Tools**: Discord RPC, note-taking with Zk, project management
+- **FZF-lua over Telescope**: Switched to fzf-lua for significantly faster fuzzy finding and better performance
+- **Blink.cmp over nvim-cmp**: Modern autocompletion engine that's faster and more responsive
+- **Catppuccin Theme**: Beautiful, consistent theming with transparency support
+- **Enhanced Lualine**: Custom statusline with advanced indicators (LSP status, Git, diagnostics, macro recording)
+- **Modern Web Stack**: Optimized for JavaScript/TypeScript, Svelte, and Tailwind CSS development
+- **Rust Integration**: First-class Rust support with rustaceanvim
+- **Additional Productivity Tools**: Discord RPC, note-taking with Zk, project management
 
-## ✨ Features
+## Features
 
-### 🎨 Interface & Theme
+### Interface & Theme
 - **Catppuccin Mocha** theme with transparency support
 - **Custom Lualine** with advanced indicators (LSP, Git, diagnostics, macro recording)
 - **Which-key** for contextual keybinding help
 - **Nerd Font icons** for a modern interface
 
-### 🔍 Navigation & Search
+### Navigation & Search
 - **FZF-lua** for blazing-fast fuzzy finding (replaces Telescope)
 - **Treesitter** for advanced syntax highlighting
 - **Gitsigns** for visual Git integration
 - **Project management** for quick project switching
 
-### 💻 Development Stack
+### Development Stack
 
 #### Modern Web Development
 - **TypeScript/JavaScript** with ts_ls and comprehensive formatting
@@ -59,7 +59,7 @@ NebuVim is built upon the excellent kickstart.nvim foundation but includes sever
 - **GitHub Copilot** integration
 - **DAP debugging** support
 
-### 📝 Productivity
+### Productivity
 - **Smart autopairs** with context awareness
 - **Intelligent commenting** with Comment.nvim
 - **Mini.nvim** suite for various utilities
@@ -67,7 +67,7 @@ NebuVim is built upon the excellent kickstart.nvim foundation but includes sever
 - **Discord Rich Presence** with cord.nvim
 - **Dash documentation** (macOS)
 
-## 🛠️ Installation
+## Installation
 
 ### Prerequisites
 
@@ -103,7 +103,7 @@ git clone https://github.com/your-username/nebu-nvim.git ~/.config/nvim
 nvim
 ```
 
-## ⌨️ Key Bindings
+## Key Bindings
 
 ### Navigation
 | Keybinding | Action |
@@ -147,7 +147,7 @@ nvim
 | `<leader>gb` | Blame line |
 | `<leader>td` | Toggle deleted lines |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ~/.config/nvim/
@@ -169,7 +169,7 @@ nvim
 └── README.md               # This file
 ```
 
-## 🎯 Included Plugins
+## Included Plugins
 
 <details>
 <summary><b>Interface & Navigation</b></summary>
@@ -224,7 +224,7 @@ nvim
 
 </details>
 
-## 🔧 Customization
+## Customization
 
 ### Language Server Configuration
 
@@ -270,7 +270,7 @@ return {
 }
 ```
 
-## 🚀 Useful Commands
+## Useful Commands
 
 ```bash
 # Format Lua code
@@ -292,7 +292,7 @@ stylua --check .
 <leader>sf
 ```
 
-## 🌐 Development Environments
+## Development Environments
 
 ### Web Development Setup
 ```bash
@@ -317,7 +317,7 @@ Neovim's Lua environment is automatically configured with:
 - Autocompletion for vim functions
 - Type checking and diagnostics
 
-## 📚 Resources
+## Resources
 
 - [Neovim Documentation](https://neovim.io/doc/)
 - [Lazy.nvim Guide](https://lazy.folke.io/)
@@ -326,7 +326,7 @@ Neovim's Lua environment is automatically configured with:
 - [FZF-lua Documentation](https://github.com/ibhagwan/fzf-lua)
 - [Blink.cmp Documentation](https://github.com/saghen/blink.cmp)
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to:
 
@@ -336,7 +336,7 @@ Contributions are welcome! Feel free to:
 4. 📤 Push to the branch
 5. 🔄 Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for details.
 
