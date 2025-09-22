@@ -2,11 +2,6 @@
 return {
   'goolord/alpha-nvim',
   event = 'VimEnter',
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
-    -- ❌ ne mets pas 'ibhagwan/fzf-lua' ici :
-    -- on veut que fzf-lua reste lazy via cmd/keys
-  },
   config = function()
     local alpha = require 'alpha'
     local dash = require 'alpha.themes.dashboard'
@@ -80,7 +75,6 @@ return {
       dash.button('q', '󰗼  Quit', ':qa<CR>'),
       { type = 'text', val = ' Recent files', opts = { hl = 'Title', position = 'center' } },
     }
-    -- enlève les nil potentiels si zk_xxx absent
     dash.section.buttons.val = vim.tbl_filter(function(x)
       return x ~= nil
     end, dash.section.buttons.val)
