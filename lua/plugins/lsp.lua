@@ -61,6 +61,7 @@ return {
         'emmet_language_server',
         'jsonls',
         'yamlls',
+        'hyprls',
       }
       local tools = { 'stylua', 'prettierd', 'eslint_d', 'black', 'isort', 'debugpy' }
       local ensure = {}
@@ -417,6 +418,8 @@ return {
             },
           },
         },
+        -- Hyprland support
+        hyprls = {},
       }
 
       -- Ensure the servers and tools above are installed

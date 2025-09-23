@@ -1,36 +1,65 @@
 return { -- Highlight, edit, and navigate code
-  'nvim-treesitter/nvim-treesitter',
-  event = { 'BufReadPost', 'BufNewFile' },
-  build = ':TSUpdate',
-  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  opts = {
-    ensure_installed = {
-    -- base
-    'lua', 'luadoc', 'vim', 'vimdoc', 'query',
-    'bash', 'c', 'diff', 'html', 'markdown', 'markdown_inline',
-    -- web/TS
-    'javascript', 'typescript', 'tsx', 'json', 'jsonc', 'css', 'scss', 'yaml',
-    -- svelte si tu en fais
-    'svelte',
-    -- Rust & outillage
-    'rust', 'toml', 'regex', 'gitignore',
+  {
+    'nvim-treesitter/nvim-treesitter',
+    event = { 'BufReadPost', 'BufNewFile' },
+    build = ':TSUpdate',
+    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    opts = {
+      ensure_installed = {
+        -- base
+        'lua',
+        'luadoc',
+        'vim',
+        'vimdoc',
+        'query',
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'markdown',
+        'markdown_inline',
+        -- web/TS
+        'javascript',
+        'typescript',
+        'tsx',
+        'json',
+        'jsonc',
+        'css',
+        'scss',
+        'yaml',
+        -- svelte si tu en fais
+        'svelte',
+        -- Rust & outillage
+        'rust',
+        'toml',
+        'regex',
+        'gitignore',
+        -- Hyprland support
+        'hyprlang',
+      },
+      -- Autoinstall languages that are not installed
+      auto_install = true,
+      highlight = {
+        enable = true,
+        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+        --  If you are experiencing weird indenting issues, add the language to
+        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        additional_vim_regex_highlighting = { 'ruby' },
+      },
+      indent = { enable = true, disable = { 'ruby' } },
     },
-    -- Autoinstall languages that are not installed
-    auto_install = true,
-    highlight = {
-      enable = true,
-      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      --  If you are experiencing weird indenting issues, add the language to
-      --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
+    -- There are additional nvim-treesitter modules that you can use to interact
+    -- with nvim-treesitter. You should go explore a few and see what interests you:
+    --
+    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-  -- There are additional nvim-treesitter modules that you can use to interact
-  -- with nvim-treesitter. You should go explore a few and see what interests you:
-  --
-  --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  -- Hyprland tree-sitter grammar
+  {
+    'tree-sitter-grammars/tree-sitter-hyprlang',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function() end,
+  },
 }
