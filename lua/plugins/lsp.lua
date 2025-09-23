@@ -33,26 +33,54 @@ return {
     end,
   },
   {
+    'mason-org/mason.nvim',
+    build = ':MasonUpdate',
+    cmd = { 'Mason', 'MasonLog', 'MasonUpdate' },
+    opts = {
+      ui = {
+        border = 'rounded',
+        icons = { package_installed = '✓', package_pending = '➜', package_uninstalled = '✗' },
+      },
+    },
+  },
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    dependencies = { 'mason-org/mason.nvim' },
+    event = 'VeryLazy',
+    opts = function()
+      local servers = {
+        'lua_ls',
+        'basedpyright',
+        'ruff',
+        'vtsls',
+        'svelte',
+        'eslint',
+        'html',
+        'cssls',
+        'tailwindcss',
+        'emmet_language_server',
+        'jsonls',
+        'yamlls',
+      }
+      local tools = { 'stylua', 'prettierd', 'eslint_d', 'black', 'isort', 'debugpy' }
+      local ensure = {}
+      vim.list_extend(ensure, servers)
+      vim.list_extend(ensure, tools)
+      return {
+        ensure_installed = ensure,
+        run_on_start = true,
+        start_delay = 200,
+        debounce_hours = 24,
+      }
+    end,
+  },
+  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      {
-        'mason-org/mason.nvim',
-        cmd = { 'Mason', 'MasonUpdate' },
-        opts = {
-          ui = {
-            border = 'rounded',
-            icons = {
-              package_installed = '✓',
-              package_pending = '➜',
-              package_uninstalled = '✗',
-            },
-          },
-        },
-      }, -- in charge of managing lsp servers, linters & formatters
+      'mason-org/mason.nvim',
       'mason-org/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
       -- pour les schémas JSON/YAML
       { 'b0o/schemastore.nvim', ft = { 'json', 'jsonc', 'yaml', 'yml', 'yaml.ansible' } },
     },
