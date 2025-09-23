@@ -38,14 +38,14 @@ return {
       local theme = colors.theme
       return {
         -- Transparent Floating Windows
-        NormalFloat = { bg = 'none' },
-        FloatBorder = { bg = 'none' },
-        FloatTitle = { bg = 'none' },
+        NormalFloat = { bg = theme.ui.bg_p1, fg = theme.ui.fg_dim },
+        FloatBorder = { bg = theme.ui.bg_p1, fg = theme.ui.fg_dim },
+        FloatTitle = { bg = theme.ui.bg_p1, fg = theme.ui.fg_dim },
         -- Variante sombre réutilisable (cf. doc)
         NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
         -- Plugins qui lient sur NormalFloat par défaut
-        LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
-        MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+        LazyNormal = { bg = theme.ui.bg_p1, fg = theme.ui.fg_dim },
+        MasonNormal = { bg = theme.ui.bg_p1, fg = theme.ui.fg_dim },
 
         -- Dark completion (popup) menu
         Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
