@@ -1,11 +1,24 @@
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VimEnter',
+  dependencies = {
+    {
+      'linrongbin16/lsp-progress.nvim',
+      event = { 'LspAttach', 'LspDetach' },
+      config = function()
+        require('lsp-progress').setup {}
+      end,
+    },
+  },
   opts = function()
     -- Helpers/Composants
     local function cwd()
       local dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
       return ' ' .. dir
+    end
+
+    local function lsp_progress()
+      return require('lsp-progress').progress()
     end
 
     local function gitsigns_diff_source()
@@ -110,7 +123,7 @@ return {
         lualine_a = { { 'mode', icon = ' ' } },
         lualine_b = { cwd, git_branch },
         lualine_c = { git_diff, diagnostics, align, lsp_names, ts_ok, dap_status },
-        lualine_x = { searchcount, macro_rec },
+        lualine_x = { lsp_progress, searchcount, macro_rec },
         lualine_y = { indent, { 'filetype', icon_only = false }, enc_ff, 'encoding', 'progress' },
         lualine_z = { 'location' },
       },
