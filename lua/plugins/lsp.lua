@@ -37,16 +37,22 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
-      -- Mason must be loaded before its dependents so we need to set it up here.
-      -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'mason-org/mason.nvim', opts = {} },
+      {
+        'mason-org/mason.nvim',
+        cmd = { 'Mason', 'MasonUpdate' },
+        opts = {
+          ui = {
+            border = 'rounded',
+            icons = {
+              package_installed = '✓',
+              package_pending = '➜',
+              package_uninstalled = '✗',
+            },
+          },
+        },
+      }, -- in charge of managing lsp servers, linters & formatters
       'mason-org/mason-lspconfig.nvim',
-      { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-
-      -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', event = 'LspAttach', opts = {} },
-
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       -- pour les schémas JSON/YAML
       { 'b0o/schemastore.nvim', ft = { 'json', 'jsonc', 'yaml', 'yml', 'yaml.ansible' } },
     },
