@@ -33,6 +33,8 @@ return {
       return { desc = d }
     end
 
+    local zk_ok, zk = pcall(require, 'config.notes')
+
     map('n', '<leader>sh', fzf.help_tags, desc '[S]earch [H]elp')
     map('n', '<leader>sk', fzf.keymaps, desc '[S]earch [K]eymaps')
     map('n', '<leader>sf', fzf.files, desc '[S]earch [F]iles')
@@ -89,8 +91,10 @@ return {
     end, desc '[S]earch [/] in Open Files')
 
     -- Shortcut pour config Neovim
-    map('n', '<leader>sn', function()
+    map('n', '<leader>sc', function()
       fzf.files { cwd = vim.fn.stdpath 'config' }
-    end, desc '[S]earch [N]eovim files')
+    end, desc '[S]earch neovim [C]onfig files')
+
+    map('n', '<leader>sj', zk.browse, desc '[S]earch [J]ournal') -- notes
   end,
 }
