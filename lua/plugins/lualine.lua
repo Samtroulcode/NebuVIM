@@ -111,8 +111,8 @@ return {
       options = {
         icons_enabled = true,
         theme = 'auto',
+        section_separators = { right = '', left = '' },
         component_separators = '',
-        section_separators = '',
         disabled_filetypes = {
           statusline = {},
           winbar = {},
