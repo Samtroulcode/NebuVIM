@@ -10,6 +10,8 @@ return { -- Useful plugin to show you pending keybinds.
     spec = {
       { '<leader>s', group = 'Search' },
       { '<leader>t', group = 'Toggle' },
+      { '<leader>d', group = 'Debug' },
+      { '<leader>z', group = 'Zettelkasten', icon = { icon = '󰠮 ', color = 'blue' } },
       { '<leader>g', group = 'Git', mode = { 'n', 'v' } },
       { '<leader>b', group = 'Buffers', icon = { icon = ' ', color = 'magenta' } },
       { '<leader>bs', group = 'Sort', icon = { icon = '󰒺 ' } },
