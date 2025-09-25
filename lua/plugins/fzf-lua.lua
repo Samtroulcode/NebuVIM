@@ -91,9 +91,9 @@ return {
     end, desc '[S]earch [/] in Open Files')
 
     -- Shortcut pour config Neovim
-    map('n', '<leader>sc', function()
+    map('n', '<leader>sn', function()
       fzf.files { cwd = vim.fn.stdpath 'config' }
-    end, desc '[S]earch neovim [C]onfig files')
+    end, desc '[S]earch [N]eovim config files')
 
     map('n', '<leader>sj', zk.browse, desc '[S]earch [J]ournal') -- notes
   end,
