@@ -52,6 +52,19 @@ function M.new_lua()
   }
 end
 
+function M.new_root()
+  local title = vim.fn.input 'Titre (root): '
+  if not title or title == '' then
+    return
+  end
+  zk_cmd.get 'ZkNew' {
+    title = title,
+    dir = 'root',
+    group = 'root',
+    notebook_path = nb(),
+  }
+end
+
 -- ==== Navigation / recherche (portée = tout le notebook) ====
 function M.browse()
   zk_cmd.get 'ZkNotes' {
@@ -74,6 +87,15 @@ function M.browse_lua()
   zk_cmd.get 'ZkNotes' {
     notebook_path = nb(),
     hrefs = { 'lua' }, -- restreint au dossier lua/
+    sort = { 'modified' },
+    reverse = true,
+  }
+end
+
+function M.browse_root()
+  zk_cmd.get 'ZkNotes' {
+    notebook_path = nb(),
+    hrefs = { 'root' },
     sort = { 'modified' },
     reverse = true,
   }
@@ -132,5 +154,6 @@ vim.keymap.set('n', '<leader>zL', M.backlinks, { desc = '[Z]k [L]inks (backlinks
 vim.keymap.set('n', '<leader>zg', M.grep, { desc = '[Z]k [G]rep' })
 vim.keymap.set('n', '<leader>zR', M.new_rust, { desc = '[Z]k new [R]ust' })
 vim.keymap.set('n', '<leader>zL', M.new_lua, { desc = '[Z]k new [L]ua' })
+vim.keymap.set('n', '<leader>zS', M.new_root, { desc = '[Z]k new [S]u root' })
 
 return M
