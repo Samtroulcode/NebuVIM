@@ -8,6 +8,7 @@ return { -- Useful plugin to show you pending keybinds.
     delay = 0,
     -- Document existing key chains
     spec = {
+      { '<leader>l', group = 'LÖVE', icon = { icon = '󰺶 ', color = 'cyan' } },
       { '<leader>s', group = 'Search' },
       { '<leader>t', group = 'Toggle' },
       { '<leader>d', group = 'Debug' },
