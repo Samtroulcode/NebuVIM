@@ -262,6 +262,11 @@ return {
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
+      local lspconfig = require 'lspconfig'
+      lspconfig.gdscript.setup {
+        capabilities = capabilities,
+        -- rien d’autre à préciser : lspconfig se connecte à 127.0.0.1:6005
+      }
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -336,11 +341,22 @@ return {
           -- capabilities = {},
           settings = {
             Lua = {
+              runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = vim.split(package.path, ';'),
+              },
               completion = {
                 callSnippet = 'Replace',
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              diagnostics = {
+                disable = { 'missing-fields' },
+                globals = { 'vim', 'love' },
+              },
+              telemetry = { enable = false },
+              hint = { enable = true },
             },
           },
         },
@@ -436,6 +452,9 @@ return {
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
+      ensure_installed = vim.tbl_filter(function(name)
+        return name ~= 'gdscript'
+      end, ensure_installed)
       vim.list_extend(ensure_installed, {
         -- LSP
         'basedpyright',
@@ -474,7 +493,8 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config(server_name, server)
+            -- require('lspconfig')[server_name].setup(server)
           end,
         },
       }
@@ -497,18 +517,17 @@ return {
     },
     opts = {
       notify_on_error = false,
+      -- 1) Désactive le format "avant sauvegarde" uniquement pour GDScript
       format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
+        if vim.bo[bufnr].filetype == 'gdscript' then
           return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
+        end
+        return { timeout_ms = 2000, lsp_format = 'fallback' }
+      end,
+      -- 2) Et formate GDScript "après sauvegarde" (évite les timeouts gdformat)
+      format_after_save = function(bufnr)
+        if vim.bo[bufnr].filetype == 'gdscript' then
+          return { lsp_format = 'never', timeout_ms = 3000 }
         end
       end,
       -- formatters customs
@@ -519,6 +538,8 @@ return {
           args = { 'check', '--fix', '--exit-zero', '--stdin-filename', '$FILENAME', '-' },
           stdin = true,
         },
+        -- custom gdformat pour Godot (gdscript) : fichier, pas stdin
+        gdformat = { command = 'gdformat', stdin = false, args = { '$FILENAME' } },
       },
       formatters_by_ft = {
         lua = { 'stylua' },
@@ -537,6 +558,7 @@ return {
         json = { 'prettierd' },
         yaml = { 'prettierd' },
         rust = { 'rustfmt' },
+        gdscript = { 'gdformat' },
       },
     },
   },

@@ -6,6 +6,7 @@ return {
       '~/Documents/dev/*/*',
       '~/exercism/*',
       '~/.config/*',
+      '~/Godot/*',
     },
     dashboard_mode = true,
     picker = {
