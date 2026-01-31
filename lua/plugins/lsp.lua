@@ -12,26 +12,6 @@ return {
       },
     },
   },
-  -- Copilot official plugin
-  {
-    'github/copilot.vim',
-    cmd = 'Copilot',
-    event = 'InsertEnter',
-    init = function()
-      vim.g.copilot_no_maps = true
-    end,
-    config = function()
-      -- Block the normal Copilot suggestions
-      vim.api.nvim_create_augroup('github_copilot', { clear = true })
-      vim.api.nvim_create_autocmd({ 'FileType', 'BufUnload' }, {
-        group = 'github_copilot',
-        callback = function(args)
-          vim.fn['copilot#On' .. args.event]()
-        end,
-      })
-      vim.fn['copilot#OnFileType']()
-    end,
-  },
   {
     'mason-org/mason.nvim',
     build = ':MasonUpdate',
@@ -262,11 +242,11 @@ return {
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
-      local lspconfig = require 'lspconfig'
-      lspconfig.gdscript.setup {
+      vim.lsp.config('gdscript', {
         capabilities = capabilities,
         -- rien d’autre à préciser : lspconfig se connecte à 127.0.0.1:6005
-      }
+      })
+      vim.lsp.enable 'gdscript'
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
