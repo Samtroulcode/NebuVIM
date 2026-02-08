@@ -547,26 +547,6 @@ return {
     event = 'InsertEnter',
     version = '1.*',
     dependencies = {
-      {
-        'fang2hou/blink-copilot',
-        event = 'InsertEnter',
-        dependencies = { 'saghen/blink.cmp' },
-        -- default config for blink-copilot
-        opts = {
-          {
-            max_completions = 3,
-            max_attempts = 4,
-            kind_name = 'Copilot', ---@type string | false
-            kind_icon = ' ', ---@type string | false
-            kind_hl = false, ---@type string | false
-            debounce = 200, ---@type integer | false
-            auto_refresh = {
-              backward = true,
-              forward = true,
-            },
-          },
-        },
-      },
       -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
@@ -646,16 +626,9 @@ return {
           'snippets',
           'lazydev',
           'buffer',
-          'copilot',
         },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          copilot = {
-            name = 'copilot',
-            module = 'blink-copilot',
-            score_offset = 100,
-            async = true,
-          },
         },
       },
 
