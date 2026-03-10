@@ -98,6 +98,9 @@ vim.opt.splitkeep = 'screen'
 -- Global statusline
 vim.opt.laststatus = 3
 
+-- Always show tabline (bufferline)
+vim.opt.showtabline = 2
+
 -- ripgrep
 if vim.fn.executable 'rg' == 1 then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'

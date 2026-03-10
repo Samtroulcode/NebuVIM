@@ -3,10 +3,11 @@ return {
   event = 'VeryLazy',
   opts = {
     projects = { -- define project roots
-      '~/Documents/dev/*/*',
+      '~/Storage/SDA/dev/*/*',
       '~/exercism/*',
       '~/.config/*',
       '~/Godot/*',
+      '~/dotfiles/',
     },
     dashboard_mode = true,
     picker = {
