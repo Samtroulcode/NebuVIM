@@ -5,3 +5,5 @@ lua/plugins/*.bak
 spell/
 lazy-lock.json
 AGENTS.md
+.opencode/
+opencode*
