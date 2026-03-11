@@ -1,5 +1,7 @@
 local M = {}
 
+local web_formatters = { 'prettierd', 'eslint_d' }
+
 function M.opts()
   return {
     notify_on_error = false,
@@ -29,12 +31,12 @@ function M.opts()
     formatters_by_ft = {
       lua = { 'stylua' },
       python = { 'isort', 'black', 'ruff_fix' },
-      javascript = { 'prettierd', 'eslint_d' },
-      typescript = { 'prettierd', 'eslint_d' },
-      javascriptreact = { 'prettierd', 'eslint_d' },
-      typescriptreact = { 'prettierd', 'eslint_d' },
-      svelte = { 'prettierd', 'eslint_d' },
-      vue = { 'prettierd', 'eslint_d' },
+      javascript = web_formatters,
+      typescript = web_formatters,
+      javascriptreact = web_formatters,
+      typescriptreact = web_formatters,
+      svelte = web_formatters,
+      vue = web_formatters,
       html = { 'prettierd' },
       css = { 'prettierd' },
       scss = { 'prettierd' },

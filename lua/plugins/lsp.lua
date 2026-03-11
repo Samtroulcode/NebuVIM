@@ -32,12 +32,16 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     dependencies = { 'mason-org/mason.nvim' },
     event = 'VeryLazy',
-    opts = {
-      ensure_installed = tools.ensure_installed(),
-      run_on_start = true,
-      start_delay = 200,
-      debounce_hours = 24,
-    },
+    opts = function()
+      local lsp_servers = servers.definitions()
+
+      return {
+        ensure_installed = tools.ensure_installed(lsp_servers),
+        run_on_start = true,
+        start_delay = 200,
+        debounce_hours = 24,
+      }
+    end,
   },
   {
     'neovim/nvim-lspconfig',
@@ -49,28 +53,19 @@ return {
     },
     config = function()
       local capabilities = lsp.get_capabilities()
-      local definitions = servers.definitions()
+      local lsp_servers = servers.definitions()
 
       diagnostics.setup()
       attach.setup()
       servers.setup_gdscript(capabilities)
-      mason.setup(capabilities, definitions)
+      mason.setup(capabilities, lsp_servers)
     end,
   },
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
+    keys = require('options.keybinds').keys.conform,
     opts = format.opts(),
   },
   {

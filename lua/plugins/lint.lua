@@ -5,6 +5,17 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+
+      if lint.linters.markdownlint then
+        lint.linters.markdownlint.args = {
+          '--stdin',
+          '--disable',
+          'MD041',
+          'MD022',
+          'MD032',
+        }
+      end
+
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
       }

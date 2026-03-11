@@ -7,33 +7,61 @@ return { -- Highlight, edit, and navigate code
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
-        -- base
+        -- core
         'lua',
         'luadoc',
         'vim',
         'vimdoc',
         'query',
         'bash',
+        'regex',
+        'printf',
         'c',
+        'cpp',
         'diff',
-        'html',
+        -- docs / prose
         'markdown',
         'markdown_inline',
-        -- web/TS
+        'latex',
+        'typst',
+        'bibtex',
+        'mermaid',
+        -- web
+        'html',
+        'html_tags',
         'javascript',
         'typescript',
         'tsx',
+        'vue',
+        'svelte',
+        'astro',
         'json',
-        'jsonc',
+        'json5',
         'css',
         'scss',
+        'graphql',
         'yaml',
-        -- svelte si tu en fais
-        'svelte',
-        -- Rust & outillage
-        'rust',
+        'xml',
+        'dtd',
+        -- systems / devops
+        'dockerfile',
+        'nix',
         'toml',
-        'regex',
+        'sql',
+        'kdl',
+        -- languages
+        'python',
+        'go',
+        'gomod',
+        'gosum',
+        'gowork',
+        'java',
+        'kotlin',
+        'swift',
+        'zig',
+        'rust',
+        -- misc
+        'csv',
         'gitignore',
         -- Hyprland support
         'hyprlang',

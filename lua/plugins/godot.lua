@@ -1,4 +1,4 @@
 return {
   'habamax/vim-godot',
-  event = { 'BufReadPre', 'BufNewFile' },
+  ft = { 'gdscript', 'gdshader', 'godot_resource' },
 }

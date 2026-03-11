@@ -27,12 +27,7 @@ return {
         },
       },
     },
-    keys = {
-      { '<leader>cc', '<cmd>CopilotChatToggle<cr>', desc = 'CopilotChat Toggle' },
-      { '<leader>ce', '<cmd>CopilotChatExplain<cr>', desc = 'CopilotChat Explain' },
-      { '<leader>cf', '<cmd>CopilotChatFix<cr>', desc = 'CopilotChat Fix' },
-      { '<leader>cb', '<cmd>CopilotChat Brainstorm<cr>', desc = 'CopilotChat Brainstorm' },
-    },
+    keys = require('options.keybinds').keys.copilot,
   },
   {
     'github/copilot.vim',

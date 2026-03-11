@@ -22,7 +22,7 @@ vim.g.maplocalleader = ' '
 --]]
 
 require 'options.options' -- this is my options file with all nvim options
-require 'options.nvim-keymaps' -- My BASIC keymapping such as split moving
+require('options.keybinds').setup() -- My BASIC keymapping such as split moving
 require 'options.autocmd' -- My autocommands
 
 --[[

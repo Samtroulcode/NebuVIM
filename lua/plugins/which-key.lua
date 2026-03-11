@@ -7,16 +7,7 @@ return { -- Useful plugin to show you pending keybinds.
     -- this setting is independent of vim.o.timeoutlen
     delay = 0,
     -- Document existing key chains
-    spec = {
-      { '<leader>l', group = 'LÖVE', icon = { icon = '󰺶 ', color = 'cyan' } },
-      { '<leader>s', group = 'Search' },
-      { '<leader>t', group = 'Toggle' },
-      { '<leader>d', group = 'Debug' },
-      { '<leader>z', group = 'Zettelkasten', icon = { icon = '󰠮 ', color = 'blue' } },
-      { '<leader>g', group = 'Git', mode = { 'n', 'v' } },
-      { '<leader>b', group = 'Buffers', icon = { icon = ' ', color = 'magenta' } },
-      { '<leader>bs', group = 'Sort', icon = { icon = '󰒺 ' } },
-    },
+    spec = require('options.keybinds').which_key,
     win = {
       no_overlap = true, -- Prevent the WhichKey window from overlapping with the cursor
     },

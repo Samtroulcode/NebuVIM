@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'qf', 'help', 'man', 'lspinfo', 'startuptime', 'checkhealth' },
   callback = function(ev)
     vim.bo[ev.buf].buflisted = false
-    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = ev.buf, silent = true })
+    require('options.keybinds').close_with_q(ev.buf)
   end,
 })
 
@@ -62,5 +62,35 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.cmd 'startinsert'
     -- pas listé dans :ls
     vim.bo.buflisted = false
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Enable markdown conceal for Obsidian UI',
+  group = vim.api.nvim_create_augroup('markdown-conceal', { clear = true }),
+  pattern = { 'markdown' },
+  callback = function()
+    vim.opt_local.conceallevel = 2
+    vim.opt_local.concealcursor = 'nc'
+  end,
+})
+
+vim.api.nvim_create_autocmd('User', {
+  desc = 'Apply comfort settings in Obsidian notes',
+  group = vim.api.nvim_create_augroup('obsidian-comfort', { clear = true }),
+  pattern = 'ObsidianNoteEnter',
+  callback = function(ev)
+    vim.bo[ev.buf].textwidth = 0
+    vim.api.nvim_set_option_value('spelllang', 'en,fr', { buf = ev.buf })
+
+    local wins = vim.fn.win_findbuf(ev.buf)
+    for _, win in ipairs(wins) do
+      vim.api.nvim_set_option_value('spell', true, { win = win })
+      vim.api.nvim_set_option_value('wrap', true, { win = win })
+      vim.api.nvim_set_option_value('linebreak', true, { win = win })
+      vim.api.nvim_set_option_value('breakindent', true, { win = win })
+      vim.api.nvim_set_option_value('conceallevel', 2, { win = win })
+      vim.api.nvim_set_option_value('concealcursor', 'nc', { win = win })
+    end
   end,
 })

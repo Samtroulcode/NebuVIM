@@ -4,5 +4,6 @@ return {
   event = 'VeryLazy',
   cmd = { 'TodoTrouble', 'TodoTelescope', 'TodoQuickFix', 'TodoLocList' },
   dependencies = { 'nvim-lua/plenary.nvim' },
+  keys = require('options.keybinds').keys.todo,
   opts = { signs = false },
 }

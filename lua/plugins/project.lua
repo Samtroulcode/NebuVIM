@@ -1,6 +1,13 @@
 return {
   'coffebar/neovim-project',
   event = 'VeryLazy',
+  cmd = {
+    'NeovimProjectDiscover',
+    'NeovimProjectHistory',
+    'NeovimProjectLoadRecent',
+    'NeovimProjectLoad',
+  },
+  keys = require('options.keybinds').keys.project,
   opts = {
     projects = { -- define project roots
       '~/Storage/SDA/dev/*/*',
@@ -11,7 +18,7 @@ return {
     },
     dashboard_mode = true,
     picker = {
-      type = 'fzf-lua', -- one of "telescope", "fzf-lua", or "snacks"
+      type = 'snacks',
     },
   },
   init = function()

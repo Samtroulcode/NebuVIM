@@ -1,16 +1,42 @@
 local M = {}
 
-local function project_python()
-  local cwd = vim.fn.getcwd()
-  local venv_python = cwd .. '/.venv/bin/python'
+local web_filetypes = {
+  'html',
+  'css',
+  'scss',
+  'less',
+  'sass',
+  'javascriptreact',
+  'typescriptreact',
+  'javascript',
+  'typescript',
+  'svelte',
+}
+
+local function project_python(root_dir)
+  local venv_python = root_dir .. '/.venv/bin/python'
   if vim.fn.executable(venv_python) == 1 then
     return venv_python
   end
 end
 
+local function disable_formatting(client)
+  client.server_capabilities.documentFormattingProvider = false
+end
+
 function M.definitions()
   return {
     basedpyright = {
+      before_init = function(_, config)
+        local python_path = project_python(config.root_dir or vim.fn.getcwd())
+        if not python_path then
+          return
+        end
+
+        config.settings = config.settings or {}
+        config.settings.python = config.settings.python or {}
+        config.settings.python.pythonPath = python_path
+      end,
       settings = {
         python = {
           analysis = {
@@ -18,7 +44,6 @@ function M.definitions()
             autoImportCompletions = true,
             useLibraryCodeForTypes = true,
           },
-          pythonPath = project_python(),
         },
       },
     },
@@ -33,9 +58,7 @@ function M.definitions()
       },
     },
     ruff = {
-      on_attach = function(client)
-        client.server_capabilities.documentFormattingProvider = false
-      end,
+      on_attach = disable_formatting,
       init_options = {
         settings = {
           args = {},
@@ -72,9 +95,7 @@ function M.definitions()
       },
     },
     svelte = {
-      on_attach = function(client)
-        client.server_capabilities.documentFormattingProvider = false
-      end,
+      on_attach = disable_formatting,
     },
     html = {
       init_options = { provideFormatter = false },
@@ -94,18 +115,7 @@ function M.definitions()
       },
     },
     emmet_language_server = {
-      filetypes = {
-        'html',
-        'css',
-        'scss',
-        'less',
-        'sass',
-        'javascriptreact',
-        'typescriptreact',
-        'javascript',
-        'typescript',
-        'svelte',
-      },
+      filetypes = web_filetypes,
       init_options = {
         showSuggestionsAsSnippets = true,
       },
@@ -123,6 +133,7 @@ function M.definitions()
 end
 
 function M.setup_gdscript(capabilities)
+  -- Godot exposes its server directly, so it does not go through Mason.
   vim.lsp.config('gdscript', {
     capabilities = capabilities,
   })

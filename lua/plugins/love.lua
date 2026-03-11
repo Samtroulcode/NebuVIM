@@ -3,8 +3,5 @@ return {
   event = 'VeryLazy',
   version = '2.*',
   opts = {},
-  keys = {
-    { '<leader>lv', '<cmd>LoveRun<cr>', ft = 'lua', desc = 'Run LÖVE' },
-    { '<leader>ls', '<cmd>LoveStop<cr>', ft = 'lua', desc = 'Stop LÖVE' },
-  },
+  keys = require('options.keybinds').keys.love,
 }

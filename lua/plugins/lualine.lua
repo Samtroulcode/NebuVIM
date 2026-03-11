@@ -20,6 +20,10 @@ return {
       return require('lsp-progress').progress()
     end
 
+    local function obsidian_status()
+      return vim.b.obsidian_status or ''
+    end
+
     local function gitsigns_diff_source()
       return vim.b.gitsigns_status_dict
     end
@@ -120,7 +124,7 @@ return {
         lualine_a = { { 'mode', icon = ' ', separator = { left = '' }, right_padding = 2 } },
         lualine_b = { cwd, git_branch },
         lualine_c = { git_diff, diagnostics, align, lsp_names, ts_ok, dap_status },
-        lualine_x = { lsp_progress, searchcount, macro_rec },
+        lualine_x = { lsp_progress, obsidian_status, searchcount, macro_rec },
         lualine_y = { indent, { 'filetype', icon_only = false }, enc_ff, 'encoding', 'progress' },
         lualine_z = { { 'location', separator = { right = '' }, left_padding = 2 } },
       },
@@ -136,7 +140,7 @@ return {
         lualine_a = { { 'buffers', symbols = { modified = ' ●', alternate_file = '  ', directory = '  ' }, mode = 2 } },
         lualine_z = { { 'tabs', mode = 2 } },
       },
-      extensions = { 'neo-tree', 'quickfix', 'fugitive', 'trouble', 'toggleterm' },
+      extensions = { 'quickfix', 'fugitive', 'trouble', 'toggleterm' },
     }
   end,
 }

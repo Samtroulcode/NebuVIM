@@ -1,34 +1,24 @@
 local M = {}
 
-M.server_names = {
-  'lua_ls',
-  'basedpyright',
-  'ruff',
-  'vtsls',
-  'svelte',
-  'eslint',
-  'html',
-  'cssls',
-  'tailwindcss',
-  'emmet_language_server',
-  'jsonls',
-  'yamlls',
-  'hyprls',
+-- Mason package names only differ where explicitly mapped here.
+M.mason_by_server = {
+  basedpyright = 'basedpyright',
+  ruff = 'ruff',
+  vtsls = 'vtsls',
+  svelte = 'svelte-language-server',
+  eslint = 'eslint-lsp',
+  html = 'html-lsp',
+  cssls = 'css-lsp',
+  tailwindcss = 'tailwindcss-language-server',
+  emmet_language_server = 'emmet-language-server',
+  jsonls = 'json-lsp',
+  yamlls = 'yaml-language-server',
+  lua_ls = 'lua-language-server',
+  hyprls = 'hyprls',
 }
 
-M.mason_packages = {
-  'basedpyright',
-  'ruff',
+M.extra_packages = {
   'stylua',
-  'vtsls',
-  'svelte-language-server',
-  'eslint-lsp',
-  'html-lsp',
-  'css-lsp',
-  'tailwindcss-language-server',
-  'emmet-language-server',
-  'json-lsp',
-  'yaml-language-server',
   'prettierd',
   'eslint_d',
   'black',
@@ -36,8 +26,20 @@ M.mason_packages = {
   'debugpy',
 }
 
-function M.ensure_installed()
-  return vim.deepcopy(M.mason_packages)
+function M.ensure_installed(servers)
+  local packages = {}
+
+  for server_name in pairs(servers) do
+    local package_name = M.mason_by_server[server_name]
+    if package_name then
+      table.insert(packages, package_name)
+    end
+  end
+
+  vim.list_extend(packages, M.extra_packages)
+  table.sort(packages)
+
+  return packages
 end
 
 return M
