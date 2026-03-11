@@ -9,6 +9,7 @@ return {
       local keys = require('options.keybinds').keys
       local ret = vim.deepcopy(keys.explorer)
       vim.list_extend(ret, keys.picker)
+      vim.list_extend(ret, keys.toggle)
       vim.list_extend(ret, keys.words)
       vim.list_extend(ret, keys.zen)
       return ret

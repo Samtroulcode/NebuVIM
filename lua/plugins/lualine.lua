@@ -11,13 +11,15 @@ return {
     },
   },
   opts = function()
+    local lsp_progress = require 'lsp-progress'
+
     local function cwd()
       local dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
       return ' ' .. dir
     end
 
-    local function lsp_progress()
-      return require('lsp-progress').progress()
+    local function lsp_progress_status()
+      return lsp_progress.progress()
     end
 
     local function obsidian_status()
@@ -124,7 +126,7 @@ return {
         lualine_a = { { 'mode', icon = ' ', separator = { left = '' }, right_padding = 2 } },
         lualine_b = { cwd, git_branch },
         lualine_c = { git_diff, diagnostics, align, lsp_names, ts_ok, dap_status },
-        lualine_x = { lsp_progress, obsidian_status, searchcount, macro_rec },
+        lualine_x = { lsp_progress_status, obsidian_status, searchcount, macro_rec },
         lualine_y = { indent, { 'filetype', icon_only = false }, enc_ff, 'encoding', 'progress' },
         lualine_z = { { 'location', separator = { right = '' }, left_padding = 2 } },
       },
@@ -136,11 +138,7 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      tabline = {
-        lualine_a = { { 'buffers', symbols = { modified = ' ●', alternate_file = '  ', directory = '  ' }, mode = 2 } },
-        lualine_z = { { 'tabs', mode = 2 } },
-      },
-      extensions = { 'quickfix', 'fugitive', 'trouble', 'toggleterm' },
+      extensions = { 'quickfix' },
     }
   end,
 }

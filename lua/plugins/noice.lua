@@ -8,25 +8,25 @@ return {
     },
     keys = {
       {
-        '<leader>nh',
+        '<leader>mh',
         function()
           require('noice').cmd 'history'
         end,
-        desc = 'Notifications History',
+        desc = 'Messages History',
       },
       {
-        '<leader>nl',
+        '<leader>ml',
         function()
           require('noice').cmd 'last'
         end,
-        desc = 'Notifications Last',
+        desc = 'Messages Last',
       },
       {
-        '<leader>nd',
+        '<leader>md',
         function()
           require('noice').cmd 'dismiss'
         end,
-        desc = 'Notifications Dismiss',
+        desc = 'Messages Dismiss',
       },
     },
     opts = {
