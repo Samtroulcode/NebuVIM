@@ -112,7 +112,6 @@ vim.opt.smoothscroll = true
 -- No more swapfile !
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undofile = true -- Mais garder l’historique d’undo entre les sessions
 
 -- folding by treesitter
 vim.opt.foldmethod = 'expr'

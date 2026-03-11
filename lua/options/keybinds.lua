@@ -157,7 +157,6 @@ function M.gitsigns_attach(bufnr)
 end
 
 M.which_key = {
-  { '<leader>?', desc = 'Search Cheatsheet' },
   { '<leader>b', group = 'Buffers' },
   { '<leader>c', group = 'Copilot' },
   { '<leader>e', group = 'Explorer' },

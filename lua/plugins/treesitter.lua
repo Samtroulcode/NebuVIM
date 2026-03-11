@@ -92,6 +92,7 @@ return { -- Highlight, edit, and navigate code
   {
     'tree-sitter-grammars/tree-sitter-hyprlang',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    ft = { 'hyprlang' },
     config = function() end,
   },
 }
