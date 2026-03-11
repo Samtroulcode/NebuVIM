@@ -1,36 +1,16 @@
--- Loader Lua bytecode (Neovim >= 0.9) : accélère les require()
+-- NebuVim entrypoint.
+-- Keep bootstrap logic minimal so the real configuration lives in dedicated modules.
+
 pcall(function()
   vim.loader.enable()
 end)
 
---[[
-=====================================
-============= Leader ================
-=====================================
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
---[[
-=====================================
-=========  List of Require ==========
-=====================================
---]]
-
-require 'options.options' -- this is my options file with all nvim options
-require('options.keybinds').setup() -- My BASIC keymapping such as split moving
-require 'options.autocmd' -- My autocommands
-
---[[
-=====================================
-===== lazy.nvim plugin manager ======
-=====================================
---]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+require 'options.options'
+require('options.keybinds').setup()
+require 'options.autocmd'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -45,18 +25,8 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
---[[
-======================================
-========= List of Plugins ============
-======================================
---]]
-
--- NOTE: Here is where you install your plugins.
 require('lazy').setup {
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-
   spec = {
-    -- import your plugins
     { import = 'plugins' },
   },
 }
