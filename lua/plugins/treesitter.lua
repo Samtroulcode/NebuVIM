@@ -1,11 +1,14 @@
-return { -- Highlight, edit, and navigate code
+-- NebuVim Treesitter setup.
+-- Parser coverage follows the languages and markup formats used across NebuVim workflows.
+
+return {
   {
     'nvim-treesitter/nvim-treesitter',
     event = { 'BufReadPost', 'BufNewFile' },
     build = ':TSUpdate',
-    main = 'nvim-treesitter', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    main = 'nvim-treesitter',
     opts = {
+      -- ╔══ Parser Coverage ══╗
       ensure_installed = {
         -- core
         'lua',
@@ -19,6 +22,7 @@ return { -- Highlight, edit, and navigate code
         'c',
         'cpp',
         'diff',
+        'norg',
         -- docs / prose
         'markdown',
         'markdown_inline',
@@ -70,25 +74,17 @@ return { -- Highlight, edit, and navigate code
         'godot_resource',
         'gdshader',
       },
-      -- Autoinstall languages that are not installed
+      -- Auto-install keeps ad-hoc filetypes usable without manual parser management.
       auto_install = true,
       highlight = {
         enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        -- Ruby still benefits from Vim regex highlighting for a few edge-case indent rules.
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby', 'gdshader', 'gdscript' } },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-  -- Hyprland tree-sitter grammar
+  -- Hyprland uses an external grammar, so it stays as a dedicated companion spec.
   {
     'tree-sitter-grammars/tree-sitter-hyprlang',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },

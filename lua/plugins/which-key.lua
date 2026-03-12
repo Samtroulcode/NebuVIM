@@ -1,19 +1,24 @@
-return { -- Useful plugin to show you pending keybinds.
+-- NebuVim which-key setup.
+-- Which-key documents the centralized registry without hijacking fast motion prefixes.
+
+return {
   'folke/which-key.nvim',
-  event = 'VeryLazy', -- Sets the loading event to 'VimEnter'
+  event = 'VeryLazy',
   opts = {
-    preset = 'helix', -- classic, helix, modern
-    -- delay between pressing a key and opening which-key (milliseconds)
-    -- this setting is independent of vim.o.timeoutlen
+    -- Helix preset keeps the popup compact while preserving explicit group labels.
+    preset = 'helix',
     delay = 0,
-    -- Document existing key chains
+    -- The registry lives outside plugin specs so every binding stays discoverable.
     spec = require('options.keybinds').which_key,
+    triggers = {
+      { '<auto>', mode = 'nixsotc' },
+    },
     win = {
-      no_overlap = true, -- Prevent the WhichKey window from overlapping with the cursor
+      no_overlap = true,
     },
     keys = {
-      scroll_down = '<C-d>', -- binding to scroll down inside the which-key popup
-      scroll_up = '<C-u>', -- binding to scroll up inside the which-key popup
+      scroll_down = '<C-d>',
+      scroll_up = '<C-u>',
     },
   },
 }

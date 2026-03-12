@@ -1,12 +1,3 @@
-local lsp = require 'config.lsp'
-local attach = require 'config.lsp.attach'
-local diagnostics = require 'config.lsp.diagnostics'
-local completion = require 'config.lsp.completion'
-local format = require 'config.lsp.format'
-local mason = require 'config.lsp.mason'
-local servers = require 'config.lsp.servers'
-local tools = require 'config.lsp.tools'
-
 return {
   {
     'folke/lazydev.nvim',
@@ -33,6 +24,8 @@ return {
     dependencies = { 'mason-org/mason.nvim' },
     event = 'VeryLazy',
     opts = function()
+      local servers = require 'config.lsp.servers'
+      local tools = require 'config.lsp.tools'
       local lsp_servers = servers.definitions()
 
       return {
@@ -46,12 +39,18 @@ return {
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
+    keys = require('options.keybinds').keys.code,
     dependencies = {
       'mason-org/mason.nvim',
       'mason-org/mason-lspconfig.nvim',
       { 'b0o/schemastore.nvim', ft = { 'json', 'jsonc', 'yaml', 'yml', 'yaml.ansible' } },
     },
     config = function()
+      local lsp = require 'config.lsp'
+      local attach = require 'config.lsp.attach'
+      local diagnostics = require 'config.lsp.diagnostics'
+      local mason = require 'config.lsp.mason'
+      local servers = require 'config.lsp.servers'
       local capabilities = lsp.get_capabilities()
       local lsp_servers = servers.definitions()
 
@@ -66,7 +65,9 @@ return {
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = require('options.keybinds').keys.conform,
-    opts = format.opts(),
+    opts = function()
+      return require('config.lsp.format').opts()
+    end,
   },
   {
     'saghen/blink.cmp',
@@ -77,7 +78,9 @@ return {
         'L3MON4D3/LuaSnip',
         event = 'InsertEnter',
         version = '2.*',
-        build = completion.luasnip_build(),
+        build = function()
+          return require('config.lsp.completion').luasnip_build()
+        end,
         dependencies = {
           {
             'rafamadriz/friendly-snippets',
@@ -90,6 +93,8 @@ return {
       },
       'folke/lazydev.nvim',
     },
-    opts = completion.blink_opts(),
+    opts = function()
+      return require('config.lsp.completion').blink_opts()
+    end,
   },
 }

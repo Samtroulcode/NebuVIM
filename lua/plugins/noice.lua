@@ -1,3 +1,6 @@
+-- NebuVim message UI.
+-- Noice stays under the dedicated messages namespace so code and search groups remain focused.
+
 return {
   {
     'folke/noice.nvim',
@@ -6,29 +9,7 @@ return {
       'MunifTanjim/nui.nvim',
       'rcarriga/nvim-notify',
     },
-    keys = {
-      {
-        '<leader>mh',
-        function()
-          require('noice').cmd 'history'
-        end,
-        desc = 'Messages History',
-      },
-      {
-        '<leader>ml',
-        function()
-          require('noice').cmd 'last'
-        end,
-        desc = 'Messages Last',
-      },
-      {
-        '<leader>md',
-        function()
-          require('noice').cmd 'dismiss'
-        end,
-        desc = 'Messages Dismiss',
-      },
-    },
+    keys = require('options.keybinds').keys.noice,
     opts = {
       lsp = {
         override = {

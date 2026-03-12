@@ -46,10 +46,14 @@ function M.attach(bufnr)
     gitsigns.diffthis '@'
   end, 'Git Diff Last Commit')
   helpers.buf_map(bufnr, 'n', '<leader>gq', gitsigns.setqflist, 'Git Quickfix Hunks')
-  helpers.buf_map(bufnr, 'n', '<leader>tb', gitsigns.toggle_current_line_blame, 'Toggle Git Blame')
-  helpers.buf_map(bufnr, 'n', '<leader>tD', gitsigns.toggle_deleted, 'Toggle Git Deleted')
-  helpers.buf_map(bufnr, 'n', '<leader>tw', gitsigns.toggle_word_diff, 'Toggle Git Word Diff')
-  helpers.buf_map(bufnr, 'n', '<leader>tl', gitsigns.toggle_linehl, 'Toggle Git Line Highlight')
+  helpers.buf_map(bufnr, 'n', '<leader>gtb', gitsigns.toggle_current_line_blame, 'Git Toggle Blame')
+  helpers.buf_map(bufnr, 'n', '<leader>gtD', gitsigns.toggle_deleted, 'Git Toggle Deleted')
+  helpers.buf_map(bufnr, 'n', '<leader>gtw', gitsigns.toggle_word_diff, 'Git Toggle Word Diff')
+  helpers.buf_map(bufnr, 'n', '<leader>gtl', gitsigns.toggle_linehl, 'Git Toggle Line Highlight')
+  helpers.buf_map(bufnr, 'n', '<leader>tb', gitsigns.toggle_current_line_blame, 'Git Toggle Blame [alias]')
+  helpers.buf_map(bufnr, 'n', '<leader>tD', gitsigns.toggle_deleted, 'Git Toggle Deleted [alias]')
+  helpers.buf_map(bufnr, 'n', '<leader>tw', gitsigns.toggle_word_diff, 'Git Toggle Word Diff [alias]')
+  helpers.buf_map(bufnr, 'n', '<leader>tl', gitsigns.toggle_linehl, 'Git Toggle Line Highlight [alias]')
 end
 
 return M

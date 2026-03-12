@@ -1,107 +1,87 @@
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+-- NebuVim core editor options.
+-- Keep native behavior predictable here so plugin specs only handle domain overrides.
 
--- Indentation de base de 2 (lua, js, toml, json, etc)
+-- Basic editing defaults.
+-- Two-space indentation keeps Lua and web stacks aligned with the rest of the repo.
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
--- pour éviter les warnings des providers
+-- Disable unused providers to avoid startup noise and pointless health warnings.
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
+-- UI defaults.
 vim.g.have_nerd_font = true
 
--- Make line numbers default
+-- `number` + `relativenumber` keeps the current line explicit while preserving jump math.
 vim.o.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
 
--- Enable mouse mode, can be useful for resizing splits for example!
+-- Mouse support is mainly useful for resizing and terminal panes.
 vim.o.mouse = 'a'
 
--- Don't show the mode, since it's already in the status line
+-- Lualine already exposes mode, so the built-in indicator becomes redundant noise.
 vim.o.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Delay clipboard sync until after startup to keep boot cost low.
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
--- Enable break indent
+-- Navigation and search ergonomics.
 vim.o.breakindent = true
 
--- Save undo history
 vim.o.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+-- Smart case keeps `/foo` forgiving while `/Foo` stays precise.
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
+-- Avoid text shifting when diagnostics or git signs appear.
 vim.o.signcolumn = 'yes'
 
--- Decrease update time
 vim.o.updatetime = 250
 
--- Decrease mapped sequence wait time
+-- Short timeout keeps leader chains snappy without making them hard to complete.
 vim.o.timeoutlen = 300
 
--- Configure how new splits should be opened
+-- New splits open in reading order so layout changes feel predictable.
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
+-- Whitespace markers stay off by default to keep prose and notes visually calm.
 -- vim.o.list = true
 -- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
--- Preview substitutions live, as you type!
+-- Preview substitutions in a split so broad search/replace stays reviewable.
 vim.o.inccommand = 'split'
 
--- Show which line your cursor is on
 vim.o.cursorline = true
 
--- Minimal number of screen lines to keep above and below the cursor.
+-- Extra context reduces jumpiness when navigating diagnostics or search results.
 vim.o.scrolloff = 10
 
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
--- See `:help 'confirm'`
+-- Guardrails for destructive editor actions.
 vim.o.confirm = true
 
--- True Colors
+-- Display and completion.
 vim.opt.termguicolors = true
 
--- Completion popup more friendly
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 vim.opt.pumheight = 12
 
--- Less visual “jumps” when spliting
+-- Preserve viewport stability when windows open or close.
 vim.opt.splitkeep = 'screen'
 
--- Global statusline
+-- Shared UI surfaces.
 vim.opt.laststatus = 3
 
--- Always show tabline (bufferline)
 vim.opt.showtabline = 2
 
--- ripgrep
+-- Prefer ripgrep so `:grep` matches Snacks and CLI expectations.
 if vim.fn.executable 'rg' == 1 then
   vim.opt.grepprg = 'rg --vimgrep --smart-case'
   vim.opt.grepformat = '%f:%l:%c:%m'
@@ -109,15 +89,15 @@ end
 
 vim.opt.smoothscroll = true
 
--- No more swapfile !
+-- Local persistence stays in undo files instead of swap/backup clutter.
 vim.opt.swapfile = false
 vim.opt.backup = false
 
--- folding by treesitter
+-- Folding uses Treesitter expressions but stays opt-in to avoid surprise hidden code.
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldenable = false
 
--- Spellchecking
+-- Writing defaults.
 vim.opt.spell = true
 vim.opt.spelllang = { 'en', 'fr' }

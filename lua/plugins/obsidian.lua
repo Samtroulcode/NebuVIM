@@ -1,3 +1,6 @@
+-- NebuVim Obsidian integration.
+-- Notes stay under `<leader>n`, with note-local motions registered on buffer enter.
+
 return {
   'obsidian-nvim/obsidian.nvim',
   version = '*', -- use latest release, remove to use latest commit
@@ -62,10 +65,7 @@ return {
     },
     callbacks = {
       enter_note = function()
-        local api = require 'obsidian.api'
-        vim.keymap.set('n', '<CR>', api.smart_action, { expr = true, buffer = true, desc = 'Obsidian Smart Action' })
-        vim.keymap.set('n', ']o', function() api.nav_link 'next' end, { buffer = true, desc = 'Obsidian Next Link' })
-        vim.keymap.set('n', '[o', function() api.nav_link 'prev' end, { buffer = true, desc = 'Obsidian Prev Link' })
+        require('options.keybinds').keys.obsidian_note_attach(vim.api.nvim_get_current_buf())
       end,
     },
     note_id_func = function(title)

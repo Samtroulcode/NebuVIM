@@ -1,5 +1,9 @@
+-- NebuVim LSP server definitions.
+-- Keep per-server overrides data-oriented here so setup code stays small.
+
 local M = {}
 
+-- Shared web filetypes keep HTML-style tools aligned across JSX, TSX, and Svelte.
 local web_filetypes = {
   'html',
   'css',
@@ -21,11 +25,13 @@ local function project_python(root_dir)
 end
 
 local function disable_formatting(client)
+  -- Conform owns formatting so LSP clients do not compete on save.
   client.server_capabilities.documentFormattingProvider = false
 end
 
 function M.definitions()
   return {
+    -- Python prefers the project venv when available so diagnostics match the active env.
     basedpyright = {
       before_init = function(_, config)
         local python_path = project_python(config.root_dir or vim.fn.getcwd())
@@ -133,7 +139,7 @@ function M.definitions()
 end
 
 function M.setup_gdscript(capabilities)
-  -- Godot exposes its server directly, so it does not go through Mason.
+  -- Godot exposes its server directly, so it bypasses Mason installation flows.
   vim.lsp.config('gdscript', {
     capabilities = capabilities,
   })

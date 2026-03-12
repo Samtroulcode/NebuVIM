@@ -35,6 +35,7 @@ NebuVim is built upon the excellent kickstart.nvim foundation but includes sever
 - **Blink.cmp over nvim-cmp**: Modern autocompletion engine that's faster and more responsive
 - **Catppuccin Theme**: Beautiful, consistent theming with transparency support
 - **Enhanced Lualine**: Custom statusline with advanced indicators (LSP status, Git, diagnostics, macro recording)
+- **Snacks UI Toolkit**: Fast picker, explorer, dashboard, and comfort modules for scratch buffers and smarter file flows
 - **Modern Web Stack**: Optimized for JavaScript/TypeScript, Svelte, and Tailwind CSS development
 - **Rust Integration**: First-class Rust support with rustaceanvim
 - **Additional Productivity Tools**: Discord RPC, note-taking with Zk, project management
@@ -60,6 +61,7 @@ NebuVim is built upon the excellent kickstart.nvim foundation but includes sever
 
 - **[FZF-lua](https://github.com/ibhagwan/fzf-lua)** for blazing-fast fuzzy finding (replaces Telescope - sorry Telescope fans, but speed wins)
 - **Treesitter** for advanced syntax highlighting
+- **[Snacks.nvim](https://github.com/folke/snacks.nvim)** for explorer, picker, dashboard, scratch buffers, and comfort UX
 - **[Gitsigns](https://github.com/lewis6991/gitsigns.nvim)** for visual Git integration
 - **[Project](https://github.com/coffebar/neovim-project) management** for quick project switching
 
@@ -178,6 +180,17 @@ nvim
 | `<leader>bd` | Delete buffer |
 | `<leader>bo` | Delete other buffers |
 | `<leader>bn/bp` | Next/previous buffer |
+| `<leader>bs` | Toggle Snacks scratch buffer |
+| `<leader>bS` | Select a Snacks scratch buffer |
+
+### Explorer & Comfort
+| Keybinding | Action |
+|------------|--------|
+| `<leader>ee` | Toggle Snacks explorer |
+| `<leader>er` | Reveal current file in explorer |
+| `<leader>eR` | Rename current file with Snacks |
+| `ii` / `ai` | Inner / around scope textobject |
+| `[i` / `]i` | Previous / next scope |
 
 ### Git
 | Keybinding | Action |
@@ -216,6 +229,7 @@ nvim
 - **catppuccin/nvim** - Modern theme with transparency support
 - **nvim-lualine/lualine.nvim** - Highly customizable statusline
 - **folke/which-key.nvim** - Contextual keybinding help
+- **folke/snacks.nvim** - Picker, explorer, dashboard, scratch, quickfile, and scope UX
 - **ibhagwan/fzf-lua** - Ultra-fast fuzzy finder (replaces Telescope)
 - **nvim-tree/nvim-web-devicons** - File type icons
 

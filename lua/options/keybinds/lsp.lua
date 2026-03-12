@@ -15,6 +15,7 @@ function M.attach(event)
 
   local core = require 'config.lsp'
 
+  -- Native-style LSP motions stay on `gr*` so the default Neovim muscle memory still works.
   helpers.buf_map(bufnr, 'n', 'grn', vim.lsp.buf.rename, 'LSP Rename')
   helpers.buf_map(bufnr, { 'n', 'x' }, 'gra', vim.lsp.buf.code_action, 'LSP Code Action')
   helpers.buf_map(bufnr, 'n', 'grr', function() Snacks.picker.lsp_references() end, 'LSP References')

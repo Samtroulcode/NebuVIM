@@ -1,3 +1,6 @@
+-- NebuVim statusline configuration.
+-- Lualine exposes high-signal context while keeping note-taking and coding states visible.
+
 return {
   'nvim-lualine/lualine.nvim',
   event = 'VimEnter',
@@ -11,6 +14,7 @@ return {
     },
   },
   opts = function()
+    -- ╔══ Dynamic Sources ══╗
     local lsp_progress = require 'lsp-progress'
 
     local function cwd()
@@ -110,6 +114,7 @@ return {
 
     local align = '%='
 
+    -- ╔══ Layout ══╗
     return {
       options = {
         icons_enabled = true,
