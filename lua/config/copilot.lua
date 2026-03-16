@@ -3,7 +3,7 @@
 
 local M = {}
 
-local completion_enabled = false
+local completion_enabled = true
 
 local function copilot_is_loaded()
   return package.loaded.copilot ~= nil or vim.fn.exists(':Copilot') == 2
