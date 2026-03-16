@@ -118,7 +118,7 @@ return {
     return {
       options = {
         icons_enabled = true,
-        theme = 'catppuccin',
+        -- theme = 'catppuccin',
         section_separators = { left = '', right = '' },
         component_separators = '',
         disabled_filetypes = {
