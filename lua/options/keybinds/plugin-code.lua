@@ -19,7 +19,7 @@ M.code = {
   { '<leader>cS', plugin_helpers.with_lsp('workspace symbols', function() Snacks.picker.lsp_workspace_symbols() end), desc = 'Code Workspace Symbols' },
   { '<leader>ct', plugin_helpers.with_lsp('type definitions', function() Snacks.picker.lsp_type_definitions() end), desc = 'Code Type Definitions' },
   { '<leader>cH', plugin_helpers.toggle_inlay_hints, desc = 'Code Toggle Inlay Hints' },
-  { '<leader>cL', '<cmd>LspInfo<CR>', desc = 'Code LSP Info' },
+  { '<leader>cL', '<cmd>checkhealth vim.lsp<CR>', desc = 'Code LSP Info' },
   { '<leader>cM', '<cmd>Mason<CR>', desc = 'Code Mason' },
 
   -- Legacy language aliases kept during the migration.
@@ -34,7 +34,7 @@ M.code = {
   { '<leader>llS', plugin_helpers.with_lsp('workspace symbols', function() Snacks.picker.lsp_workspace_symbols() end), desc = 'Code Workspace Symbols [alias]' },
   { '<leader>llt', plugin_helpers.with_lsp('type definitions', function() Snacks.picker.lsp_type_definitions() end), desc = 'Code Type Definitions [alias]' },
   { '<leader>lth', plugin_helpers.toggle_inlay_hints, desc = 'Code Toggle Inlay Hints [alias]' },
-  { '<leader>lti', '<cmd>LspInfo<CR>', desc = 'Code LSP Info [alias]' },
+  { '<leader>lti', '<cmd>checkhealth vim.lsp<CR>', desc = 'Code LSP Info [alias]' },
   { '<leader>ltm', '<cmd>Mason<CR>', desc = 'Code Mason [alias]' },
 }
 

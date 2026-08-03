@@ -18,9 +18,6 @@ return {
     { '<leader>eg', function() Snacks.picker.git_status() end, desc = 'Explorer Git Status' },
     { '<leader>eb', function() Snacks.picker.buffers() end, desc = 'Explorer Buffers [alias]' },
   },
-  yazi = {
-    { '<leader>ey', '<cmd>Yazi<CR>', desc = 'Explorer Yazi' },
-  },
   picker = {
     -- Canonical files/find hierarchy.
     { '<leader>ff', function() Snacks.picker.files() end, desc = 'Find Files' },

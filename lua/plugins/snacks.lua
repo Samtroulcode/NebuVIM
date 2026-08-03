@@ -21,7 +21,7 @@ return {
 
       return {
         -- Core comfort modules are enabled here only when they add UX value without
-        -- overlapping stronger dedicated plugins such as Noice or Yazi.
+        -- overlapping stronger dedicated plugins such as Noice.
         bigfile = { enabled = true },
         dashboard = dashboard.opts(),
         explorer = { enabled = true },
