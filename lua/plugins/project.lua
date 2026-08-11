@@ -15,6 +15,7 @@ return {
       '~/.config/*',
       '~/Godot/*',
       '~/dotfiles/',
+      '~/Git/*',
     },
     dashboard_mode = true,
     picker = {
